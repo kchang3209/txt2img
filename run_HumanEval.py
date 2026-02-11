@@ -130,11 +130,13 @@ async def main():
     parser.add_argument("--max_new_tokens", type=int, default=1024, help="answer length")
     parser.add_argument("--DATASET_PATH", type=str, default='', help="HumanEval data path")
     parser.add_argument("--RESULTS_DIR", type=str, default='', help="result path for text-only model")
+    parser.add_argument("--HF_TOKEN", type=str, default=None, help="HuggingFace Token for speed weight download")
     
     args = parser.parse_args()
     
     os.makedirs(args.RESULTS_DIR, exist_ok=True)
     
+    HF_TOKEN = args.HF_TOKEN
     
     ## Model Init
     try:
@@ -144,13 +146,15 @@ async def main():
             model = AutoModelForCausalLM.from_pretrained(
                 args.model_name,
                 torch_dtype="auto",
-                device_map="auto"
+                device_map="auto",
+                token=HF_TOKEN
             )
         elif args.mode == "vlm":
             model = Qwen3VLForConditionalGeneration.from_pretrained(
                 args.model_name,
                 dtype="auto",
-                device_map="auto"
+                device_map="auto",
+                token=HF_TOKEN
             )
             # num_visual_tokens = 512
             min_pixels = args.num_visual_tokens*28*28
