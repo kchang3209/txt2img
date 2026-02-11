@@ -80,12 +80,6 @@ async def call_vlm_model(image_path: str, model, processor_vlm, max_new_tokens) 
     return output
 
 
-
-
-
-
-
-
 def extract_code(model_output: str) -> str:
     CODE_REGEX = re.compile(r"```python\s+(.*?)\s+```", re.DOTALL)
     match = CODE_REGEX.search(model_output)
@@ -238,4 +232,4 @@ async def main():
     
 
 if __name__ == "__main__":
-    await main()
+    asyncio.run(main())
