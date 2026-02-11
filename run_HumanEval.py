@@ -141,7 +141,7 @@ async def main():
     ## Model Init
     try:
         if args.mode == "text_only":
-            tokenizer = AutoTokenizer.from_pretrained(args.model_name)
+            tokenizer = AutoTokenizer.from_pretrained(args.model_name, token=HF_TOKEN)
 
             model = AutoModelForCausalLM.from_pretrained(
                 args.model_name,
@@ -160,7 +160,7 @@ async def main():
             min_pixels = args.num_visual_tokens*28*28
             max_pixels = args.num_visual_tokens*28*28
 
-            processor_vlm = AutoProcessor.from_pretrained(args.model_name, min_pixels=min_pixels, max_pixels=max_pixels)
+            processor_vlm = AutoProcessor.from_pretrained(args.model_name, min_pixels=min_pixels, max_pixels=max_pixels, token=HF_TOKEN)
     except Exception as e:
         print(f"Error loading model: {e}")
         
