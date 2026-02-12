@@ -129,6 +129,7 @@ async def main():
     parser.add_argument("--num_visual_tokens", type=int, default=128, help="visual token number")
     parser.add_argument("--max_new_tokens", type=int, default=1024, help="answer length")
     parser.add_argument("--DATASET_PATH", type=str, default='', help="HumanEval data path")
+    parser.add_argument("--IMAGE_PATH", type=str, default='', help="HumanEval image path")
     parser.add_argument("--RESULTS_DIR", type=str, default='', help="result path for text-only model")
     parser.add_argument("--HF_TOKEN", type=str, default=None, help="HuggingFace Token for speed weight download")
     
@@ -186,7 +187,7 @@ async def main():
                 code = extract_code(output)
                 req_token = num_text_tokens
             elif args.mode == "vlm":
-                image   = os.path.join("/txt2img/HumanEval/vlm/images", item["prompt_image"])
+                image   = os.path.join(args.IMAGE_PATH, item["prompt_image"])
                 output = await call_vlm_model(image, model, processor_vlm, args.max_new_tokens)
                 code = extract_code(output)
                 req_token = args.num_visual_tokens
