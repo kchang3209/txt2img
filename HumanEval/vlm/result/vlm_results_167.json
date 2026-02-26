@@ -1,0 +1,1150 @@
+[
+  {
+    "task_id": "HumanEval/0",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\nfrom typing import List\n\ndef has_close_elements(numbers: List[float], threshold: float) -> bool:\n    for i in range(len(numbers)):\n        for j in range(i + 1, len(numbers)):\n            if abs(numbers[i] - numbers[j]) < threshold:\n                return True\n    return False\n```"
+  },
+  {
+    "task_id": "HumanEval/1",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmp9k7l8_3k/solution.py\", line 47, in <module>\n    check(separate_paren_groups)\n  File \"/tmp/tmp9k7l8_3k/solution.py\", line 35, in check\n    assert candidate('(()()) ((())) () ((())()())') == [\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+    "req_token": 167,
+    "answer": "```python\nfrom typing import List\n\ndef separate_paren_groups(paren_string: str) -> List[str]:\n    result = []\n    i = 0\n    while i < len(paren_string):\n        if paren_string[i] == ' ':\n            i += 1\n            continue\n        if paren_string[i] == '(':\n            start = i\n            depth = 1\n            i += 1\n            while i < len(paren_string) and depth > 0:\n                if paren_string[i] == '(':\n                    depth += 1\n                elif paren_string[i] == ')':\n                    depth -= 1\n                i += 1\n            if depth == 0:\n                result.append(paren_string[start:i-1])\n        else:\n            i += 1\n    return result\n```"
+  },
+  {
+    "task_id": "HumanEval/2",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef truncate_number(number: float) -> float:\n    return number - int(number)\n```"
+  },
+  {
+    "task_id": "HumanEval/3",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\nfrom typing import List\n\ndef below_zero(operations: List[int]) -> bool:\n    balance = 0\n    for op in operations:\n        balance += op\n        if balance < 0:\n            return True\n    return False\n```"
+  },
+  {
+    "task_id": "HumanEval/4",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\nfrom typing import List\n\ndef mean_absolute_deviation(numbers: List[float]) -> float:\n    mean = sum(numbers) / len(numbers)\n    return sum(abs(x - mean) for x in numbers) / len(numbers)\n```"
+  },
+  {
+    "task_id": "HumanEval/5",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmp5dh9bn5q/solution.py\", line 28, in <module>\n    check(intersperse)\n          ^^^^^^^^^^^\nNameError: name 'intersperse' is not defined. Did you mean: 'interperse'?\n",
+    "req_token": 167,
+    "answer": "```python\nfrom typing import List\n\ndef interperse(numbers: List[int], delimiter: int) -> List[int]:\n    if len(numbers) == 0:\n        return []\n    if len(numbers) == 1:\n        return numbers\n    result = [numbers[0]]\n    for i in range(1, len(numbers)):\n        result.append(delimiter)\n        result.append(numbers[i])\n    return result\n```"
+  },
+  {
+    "task_id": "HumanEval/6",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmpb1vlwjs1/solution.py\", line 40, in <module>\n    check(parse_nested_parens)\n          ^^^^^^^^^^^^^^^^^^^\nNameError: name 'parse_nested_parens' is not defined. Did you mean: 'parse_nested_paren'?\n",
+    "req_token": 167,
+    "answer": "```python\nfrom typing import List\n\ndef parse_nested_paren(paren_string: str) -> List[int]:\n    result = []\n    current_depth = 0\n    max_depth = 0\n    \n    for char in paren_string:\n        if char == '(':\n            current_depth += 1\n            max_depth = max(max_depth, current_depth)\n        elif char == ')':\n            current_depth -= 1\n        elif char == ' ':\n            if current_depth > 0:\n                result.append(max_depth)\n                max_depth = 0\n                current_depth = 0\n    \n    # Handle the case where the string ends with an open parenthesis group\n    if current_depth > 0:\n        result.append(max_depth)\n    \n    return result\n```"
+  },
+  {
+    "task_id": "HumanEval/7",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\nfrom typing import List\n\ndef filter_by_substring(strings: List[str], substring: str) -> List[str]:\n    \"\"\"Filter an input list of strings only for ones that contain given substring\n    >>> filter_by_substring(['abc', 'bcd', 'cde', 'array'], 'a')\n    ['abc', 'array']\n    \"\"\"\n    return [s for s in strings if substring in s]\n```"
+  },
+  {
+    "task_id": "HumanEval/8",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\nfrom typing import List, Tuple\n\ndef sum_product(numbers: List[int]) -> Tuple[int, int]:\n    if len(numbers) == 0:\n        return (0, 1)\n    total_sum = sum(numbers)\n    total_product = 1\n    for num in numbers:\n        total_product *= num\n    return (total_sum, total_product)\n```"
+  },
+  {
+    "task_id": "HumanEval/9",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\nfrom typing import List, Tuple\n\ndef rolling_max(numbers: List[int]) -> List[int]:\n    if not numbers:\n        return []\n    \n    max_so_far = numbers[0]\n    result = [max_so_far]\n    \n    for num in numbers[1:]:\n        max_so_far = max(max_so_far, num)\n        result.append(max_so_far)\n    \n    return result\n```"
+  },
+  {
+    "task_id": "HumanEval/10",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmpaya25btt/solution.py\", line 35, in <module>\n    check(make_palindrome)\n  File \"/tmp/tmpaya25btt/solution.py\", line 30, in check\n    assert candidate('xyz') == 'xyzyx'\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+    "req_token": 167,
+    "answer": "```python\ndef is_palindrome(string: str) -> bool:\n    \"\"\"Test if given string is a palindrome\"\"\"\n    return string == string[::-1]\n\n\ndef make_palindrome(string: str) -> str:\n    \"\"\"Find the shortest palindrome that begins with a supplied string.\n    Algorithm idea is simple:\n    - Find the longest prefix of supplied string that is a palindrome.\n    - Append to the end of the string reverse of a string prefix that comes before the palindromic suffix.\n    \"\"\"\n    if is_palindrome(string):\n        return string\n    for i in range(len(string) - 1, 0, -1):\n        if is_palindrome(string[:i]):\n            return string + string[i:][::-1]\n    return string + string[:-1][::-1]\n```"
+  },
+  {
+    "task_id": "HumanEval/11",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\nfrom typing import List\n\ndef string_xor(a: str, b: str) -> str:\n    \"\"\"Perform binary XOR on these inputs and return result also as a string.\n    >>> string_xor('010', '110')\n    '100'\n    \"\"\"\n    result = []\n    for i in range(min(len(a), len(b))):\n        if a[i] == b[i]:\n            result.append('0')\n        else:\n            result.append('1')\n    return ''.join(result)\n```"
+  },
+  {
+    "task_id": "HumanEval/12",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\nfrom typing import List, Optional\n\ndef longest(strings: List[str]) -> Optional[str]:\n    if not strings:\n        return None\n    max_len = max(len(s) for s in strings)\n    for s in strings:\n        if len(s) == max_len:\n            return s\n    return None\n```"
+  },
+  {
+    "task_id": "HumanEval/13",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef greatest_common_divisor(a: int, b: int) -> int:\n    \"\"\"Return a greatest common divisor of two integers a and b\"\"\"\n    while b:\n        a, b = b, a % b\n    return a\n```"
+  },
+  {
+    "task_id": "HumanEval/14",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\nfrom typing import List\n\ndef all_prefixes(string: str) -> List[str]:\n    \"\"\"Return list of all prefixes from shortest to longest of the input string\"\"\"\n    prefixes = []\n    for i in range(1, len(string) + 1):\n        prefixes.append(string[:i])\n    return prefixes\n```"
+  },
+  {
+    "task_id": "HumanEval/15",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef string_sequence(n):\n    return ' '.join(str(i) for i in range(n + 1))\n```"
+  },
+  {
+    "task_id": "HumanEval/16",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef count_distinct_characters(string: str) -> int:\n    return len(set(string.lower()))\n```"
+  },
+  {
+    "task_id": "HumanEval/17",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmppeq325r9/solution.py\", line 1, in <module>\n    def parse_music(music_string: str) -> List[int]:\n                                          ^^^^\nNameError: name 'List' is not defined. Did you mean: 'list'?\n",
+    "req_token": 167,
+    "answer": "```python\ndef parse_music(music_string: str) -> List[int]:\n    result = []\n    for note in music_string:\n        if note == 'o':\n            result.append(4)\n        elif note == 'o|':\n            result.append(2)\n        elif note == '.|':\n            result.append(1)\n        elif note == 'o|o|':\n            result.append(4)\n        elif note == 'o|.|':\n            result.append(2)\n        elif note == '.|.|':\n            result.append(1)\n    return result\n```\n\nWait, I need to re-read the problem. The legend says:\n- 'o' - whole note, lasts four beats\n- 'o|' - half note, lasts two beats\n- '.|' - quarter note, lasts one beat\n\nBut the example input is \"o|o|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|.|.|o|o|"
+  },
+  {
+    "task_id": "HumanEval/18",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef how_many_times(string, substring):\n    count = 0\n    start = 0\n    while True:\n        pos = string.find(substring, start)\n        if pos == -1:\n            break\n        count += 1\n        start = pos + 1\n    return count\n```"
+  },
+  {
+    "task_id": "HumanEval/19",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\nfrom typing import List\n\ndef sort_numbers(numbers: str) -> str:\n    # Map word numbers to their numeric values\n    word_to_num = {\n        'zero': 0,\n        'one': 1,\n        'two': 2,\n        'three': 3,\n        'four': 4,\n        'five': 5,\n        'six': 6,\n        'seven': 7,\n        'eight': 8,\n        'nine': 9\n    }\n    \n    # Split the input string into a list of words\n    number_words = numbers.split()\n    \n    # Convert words to numbers, sort them, then convert back to words\n    number_values = [word_to_num[word] for word in number_words]\n    number_values.sort()\n    sorted_words = [word for num in number_values for word in word_to_num if word_to_num[word] == num]\n    \n    # Join the sorted words back into a space-delimited string\n    return ' '.join(sorted_words)\n```"
+  },
+  {
+    "task_id": "HumanEval/20",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\nfrom typing import List, Tuple\n\ndef find_closest_elements(numbers: List[float]) -> Tuple[float, float]:\n    # Sort the list to ensure we have elements in order\n    sorted_numbers = sorted(numbers)\n    # Initialize with the first two elements\n    closest_pair = (sorted_numbers[0], sorted_numbers[1])\n    # Initialize with the smallest difference\n    min_diff = abs(sorted_numbers[1] - sorted_numbers[0])\n    \n    # Iterate through the list to find the pair with the smallest difference\n    for i in range(len(sorted_numbers) - 1):\n        for j in range(i + 1, len(sorted_numbers)):\n            diff = abs(sorted_numbers[j] - sorted_numbers[i])\n            if diff < min_diff:\n                min_diff = diff\n                closest_pair = (sorted_numbers[i], sorted_numbers[j])\n    \n    return closest_pair\n```"
+  },
+  {
+    "task_id": "HumanEval/21",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\nfrom typing import List\n\ndef rescale_to_unit(numbers: List[float]) -> List[float]:\n    min_val = min(numbers)\n    max_val = max(numbers)\n    if min_val == max_val:\n        return [1.0] * len(numbers)\n    return [(x - min_val) / (max_val - min_val) for x in numbers]\n```"
+  },
+  {
+    "task_id": "HumanEval/22",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\nfrom typing import List, Any\n\ndef filter_integers(values: List[Any]) -> List[int]:\n    \"\"\"filter given list of any python values only for integers\"\"\"\n    return [x for x in values if isinstance(x, int)]\n```"
+  },
+  {
+    "task_id": "HumanEval/23",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef strlen(string: str) -> int:\n    \"\"\"Return length of given string\"\"\"\n    return len(string)\n```"
+  },
+  {
+    "task_id": "HumanEval/24",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef largest_divisor(n: int) -> int:\n    for i in range(n - 1, 0, -1):\n        if n % i == 0:\n            return i\n    return 1\n```"
+  },
+  {
+    "task_id": "HumanEval/25",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\nfrom typing import List\n\ndef factorize(n: int) -> List[int]:\n    factors = []\n    divisor = 2\n    while divisor * divisor <= n:\n        while n % divisor == 0:\n            factors.append(divisor)\n            n //= divisor\n        divisor += 1\n    if n > 1:\n        factors.append(n)\n    return factors\n```"
+  },
+  {
+    "task_id": "HumanEval/26",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmppjr02ing/solution.py\", line 26, in <module>\n    check(remove_duplicates)\n          ^^^^^^^^^^^^^^^^^\nNameError: name 'remove_duplicates' is not defined. Did you mean: 'remove_duplicate_numbers'?\n",
+    "req_token": 167,
+    "answer": "```python\nfrom typing import List\n\ndef remove_duplicate_numbers(nums: List[int]) -> List[int]:\n    seen = set()\n    result = []\n    for num in nums:\n        if num not in seen:\n            seen.add(num)\n            result.append(num)\n    return result\n```"
+  },
+  {
+    "task_id": "HumanEval/27",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef flip_case(string: str) -> str:\n    result = \"\"\n    for char in string:\n        if char.islower():\n            result += char.upper()\n        else:\n            result += char.lower()\n    return result\n```"
+  },
+  {
+    "task_id": "HumanEval/28",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\nfrom typing import List\n\ndef concatenate(strings: List[str]) -> str:\n    \"\"\"Concatenate list of strings into a single string\"\"\"\n    return ''.join(strings)\n```"
+  },
+  {
+    "task_id": "HumanEval/29",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\nfrom typing import List\n\ndef filter_by_prefix(strings: List[str], prefix: str) -> List[str]:\n    \"\"\"Filter to input list of strings only for ones that start with a given prefix.\"\"\"\n    return [s for s in strings if s.startswith(prefix)]\n```"
+  },
+  {
+    "task_id": "HumanEval/30",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef get_positive(lst: list) -> list:\n    return [x for x in lst if x > 0]\n```"
+  },
+  {
+    "task_id": "HumanEval/31",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef is_prime(n):\n    if n < 2:\n        return False\n    for i in range(2, int(n**0.5) + 1):\n        if n % i == 0:\n            return False\n    return True\n```"
+  },
+  {
+    "task_id": "HumanEval/32",
+    "passed": false,
+    "error": "No code extracted",
+    "req_token": 167,
+    "answer": "```python\nimport math\n\ndef poly_eval(xs: list, x: float) -> float:\n    \"\"\"Evaluates polynomial with coefficients xs at point x.\n    return xs[0] + xs[1] * x + xs[2] * x^2 + ... + xs[n] * x^n\n    \"\"\"\n    return sum(coeff * math.pow(x, i) for i, coeff in enumerate(xs))\n\ndef find_zero(xs: list) -> float:\n    \"\"\"xs are coefficients of a polynomial.\n    find_zero finds a root that satisfies poly = 0.\n    find_zero returns only one zero point, even if there are many.\n    Moreover, find_zero only takes such polynomial with even number of coefficients\n    a solution.\n    \"\"\"\n    # The polynomial is of even degree, so we can use the bisection method\n    # or Newton's method. Here we use a simple approach: try to find a root\n    # in the interval [-100, 100] by checking the sign change.\n    # Since the polynomial has even number of coefficients, the degree is even.\n    # We can use the fact that for even degree polynomials, if the leading coefficient\n    # is positive, then as x -> \u00b1\u221e, poly -> +\u221e, and if negative, poly -> -\u221e.\n    # We'll try to find a root by checking sign changes in a reasonable range.\n    \n    # Check if the polynomial is constant (degree 0)\n    if len(xs) == 1:\n        return 0.0 if xs[0] == 0 else None  # No root if constant non-zero\n    \n    # Try to find a root in the range [-100, 100]\n    # We'll use a simple approach: evaluate the polynomial at points\n    # and look for sign changes.\n    a, b = -100, 100\n    # If the polynomial is even degree and leading coefficient is positive,\n    # then as x -> \u00b1\u221e, poly -> +\u221e, so we need to find where it crosses 0.\n    # We'll try to find a root by checking sign changes.\n    \n    # Evaluate at endpoints\n    fa = poly_eval(xs, a)\n    fb = poly_eval(xs, b)\n    \n    # If both are same sign, we need to adjust the range\n    if fa * fb > 0:\n        # Try to find a point where the sign changes\n        # We'll try to find a root by checking more points\n        # or use a different approach: try to find a root by checking\n        # the derivative or use Newton's method.\n        # For simplicity, let's use a different approach: try to find\n        # a root by checking the sign at more points.\n        # We'll try to find a root by checking the sign at points\n        # from -100 to 100 with step 0.1\n        for i in range(1000):\n            x = a + (i + 1) * 0.1\n            fx = poly_eval(xs, x)\n            if fx * fa <= 0:\n                # We found a sign change\n                a, b = a, x\n                fa, fb = fa, fx\n                break\n        else:\n            # No sign change found, try a different approach\n            # Try to find a root by checking the sign at points\n            # from -100 to 100 with step 0.01\n            for i in range(10000):\n                x = a + (i + 1) * 0.01\n                fx = poly_eval(xs, x)\n                if fx * fa <= 0:\n                    # We found a sign change\n                    a, b = a, x\n                    fa, fb = fa, fx\n                    break\n            else:\n                # Still no sign change, try to find a root by checking\n                # the sign at points from -100 to 100 with step 0.001\n                for i in range(100000):\n                    x = a + (i + 1) * 0.001\n                    fx = poly_eval(xs, x)\n                    if fx * fa <= 0:\n                        # We found a sign change\n                        a, b = a, x\n                        fa, fb = fa, fx\n                        break\n                else:\n                    # Still no sign change, try to find a root by checking\n                    # the sign at points from -100 to 100 with step 0.0001\n                    for i in range(1000000):\n                        x = a + (i + 1) * 0.0001\n                        fx = poly_eval(xs"
+  },
+  {
+    "task_id": "HumanEval/33",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef sort_third(l: list):\n    \"\"\"This function takes a list l and returns a list l' such that\n    l' is identical to l in the indices that are not divisible by three,\n    while its values at the indices that are divisible by three are equal\n    to the values of the corresponding indices of l, but sorted.\n    \"\"\"\n    # Extract values at indices divisible by 3\n    divisible_by_three_indices = [i for i in range(len(l)) if i % 3 == 0]\n    divisible_by_three_values = [l[i] for i in divisible_by_three_indices]\n    # Sort these values\n    divisible_by_three_values.sort()\n    # Create result list\n    result = l.copy()\n    # Replace values at indices divisible by 3 with sorted values\n    for i, idx in enumerate(divisible_by_three_indices):\n        result[idx] = divisible_by_three_values[i]\n    return result\n```"
+  },
+  {
+    "task_id": "HumanEval/34",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef unique(l: list):\n    \"\"\"Return sorted unique elements in a list\"\"\"\n    return sorted(list(set(l)))\n```"
+  },
+  {
+    "task_id": "HumanEval/35",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef max_element(lst: list):\n    \"\"\"Return maximum element in the list.\"\"\"\n    return max(lst)\n```"
+  },
+  {
+    "task_id": "HumanEval/36",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmpkh_5_xim/solution.py\", line 25, in <module>\n    check(fizz_buzz)\n          ^^^^^^^^^\nNameError: name 'fizz_buzz' is not defined. Did you mean: 'find_buzz'?\n",
+    "req_token": 167,
+    "answer": "```python\ndef find_buzz(n):\n    count = 0\n    for i in range(1, n):\n        if i % 11 == 0 and i % 13 == 0:\n            count += str(i).count('7')\n    return count\n```"
+  },
+  {
+    "task_id": "HumanEval/37",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef sort_even(l: list):\n    \"\"\"This function takes a list l and returns a list l' such that\n    l' is identical to l in the odd indicies, while l's values at the even indicies\n    are equal to the values of the even indicies of l, but sorted.\n    \"\"\"\n    even_indices = []\n    even_values = []\n    for i in range(len(l)):\n        if i % 2 == 0:\n            even_indices.append(i)\n            even_values.append(l[i])\n    even_values.sort()\n    result = l.copy()\n    for i in range(len(even_values)):\n        result[even_indices[i]] = even_values[i]\n    return result\n```"
+  },
+  {
+    "task_id": "HumanEval/38",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef encode_cyclic(s: str):\n    \"\"\"\n    returns encoded string by cycling groups of three characters.\n    \"\"\"\n    # split string to groups. Each of length 3.\n    groups = [s[i:i+3] for i in range(0, len(s), 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3\n    groups = [(group[1:] + group[0]) if len(group) == 3 else group for group in groups]\n    return ''.join(groups)\n\n\ndef decode_cyclic(s: str):\n    \"\"\"\n    takes as input string encoded with encode_cyclic function. Returns decoded string.\n    \"\"\"\n    # split string to groups. Each of length 3.\n    groups = [s[i:i+3] for i in range(0, len(s), 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3\n    groups = [(group[2] + group[:2]) if len(group) == 3 else group for group in groups]\n    return ''.join(groups)\n```"
+  },
+  {
+    "task_id": "HumanEval/39",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef prime_fib(n):\n    def is_prime(num):\n        if num < 2:\n            return False\n        for i in range(2, int(num**0.5) + 1):\n            if num % i == 0:\n                return False\n        return True\n\n    def fib(num):\n        if num <= 0:\n            return 0\n        elif num == 1:\n            return 1\n        else:\n            a, b = 0, 1\n            for _ in range(2, num + 1):\n                a, b = b, a + b\n            return b\n\n    i = 1\n    while True:\n        fib_num = fib(i)\n        if is_prime(fib_num):\n            if n == 1:\n                return fib_num\n            n -= 1\n        i += 1\n```"
+  },
+  {
+    "task_id": "HumanEval/40",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef triples_sum_to_zero(lst):\n    for i in range(len(lst)):\n        for j in range(i + 1, len(lst)):\n            for k in range(j + 1, len(lst)):\n                if lst[i] + lst[j] + lst[k] == 0:\n                    return True\n    return False\n```"
+  },
+  {
+    "task_id": "HumanEval/41",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmpjl9txg3a/solution.py\", line 28, in <module>\n    check(car_race_collision)\n          ^^^^^^^^^^^^^^^^^^\nNameError: name 'car_race_collision' is not defined. Did you mean: 'car_race_collisions'?\n",
+    "req_token": 167,
+    "answer": "```python\ndef car_race_collisions(n):\n    \"\"\"\n    Imagine a road that's a perfectly straight infinitely long line.\n    n cars are driving left to right; simultaneously, a different set of n cars\n    are driving right to left. The two sets of cars start not being very far\n    from each other. All cars move in the same speed. Two cars are said to collide\n    when a car that's moving left to right hits a car that's moving right to left.\n    However, the cars are infinitely sturdy and strong; as a result, they continue\n    moving in their trajectory as if they did not collide.\n    This function outputs the number of such collisions.\n    \"\"\"\n    return n * n\n```"
+  },
+  {
+    "task_id": "HumanEval/42",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef incr_list(lst: list) -> list:\n    return [x + 1 for x in lst]\n```"
+  },
+  {
+    "task_id": "HumanEval/43",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef pairs_sum_to_zero(lst):\n    seen = set()\n    for num in lst:\n        if -num in seen:\n            return True\n        seen.add(num)\n    return False\n```"
+  },
+  {
+    "task_id": "HumanEval/44",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef change_base(x: int, base: int) -> str:\n    if x == 0:\n        return \"0\"\n    digits = []\n    while x > 0:\n        digits.append(str(x % base))\n        x //= base\n    return ''.join(reversed(digits))\n```"
+  },
+  {
+    "task_id": "HumanEval/45",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef triangle_area(b, h):\n    \"\"\"Given length of a side and high return area for a triangle.\n    >>> triangle_area(5, 3)\n    7.5\n    \"\"\"\n    return 0.5 * b * h\n```"
+  },
+  {
+    "task_id": "HumanEval/46",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmpqe0t416w/solution.py\", line 30, in <module>\n    check(fib4)\n  File \"/tmp/tmpqe0t416w/solution.py\", line 23, in check\n    assert candidate(5) == 4\n           ^^^^^^^^^^^^^^^^^\nAssertionError\n",
+    "req_token": 167,
+    "answer": "```python\ndef fib4(n: int):\n    if n == 0:\n        return 1\n    elif n == 1:\n        return 8\n    elif n == 2:\n        return 2\n    elif n == 3:\n        return 6\n    else:\n        a, b, c, d = 1, 8, 2, 6\n        for i in range(4, n + 1):\n            next_val = a + b + c + d\n            a, b, c, d = b, c, d, next_val\n        return d\n```"
+  },
+  {
+    "task_id": "HumanEval/47",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef median(l: list):\n    \"\"\"Return median of elements in the list l.\"\"\"\n    sorted_l = sorted(l)\n    n = len(sorted_l)\n    if n % 2 == 1:\n        return sorted_l[n // 2]\n    else:\n        return (sorted_l[n // 2 - 1] + sorted_l[n // 2]) / 2\n```"
+  },
+  {
+    "task_id": "HumanEval/48",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef is_palindrome(text: str):\n    \"\"\"\n    Checks if given string is a palindrome\n    \"\"\"\n    return text == text[::-1]\n```"
+  },
+  {
+    "task_id": "HumanEval/49",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmp9nx57f9f/solution.py\", line 22, in <module>\n    check(modp)\n  File \"/tmp/tmp9nx57f9f/solution.py\", line 13, in check\n    assert candidate(1101, 101) == 2\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+    "req_token": 167,
+    "answer": "```python\ndef modp(n, p):\n    \"\"\"Return n's modulo p (be aware of numerics).\n    \"\"\"\n    return n % p\n```"
+  },
+  {
+    "task_id": "HumanEval/50",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef encode_shift(s: str):\n    \"\"\"\n    returns encoded string by shifting every character by 5 in the alphabet.\n    \"\"\"\n    return \"\".join([chr((ord(ch) + 5 - ord(\"a\")) % 26 + ord(\"a\")) for ch in s])\n\ndef decode_shift(s: str):\n    \"\"\"\n    takes as input string encoded by encode_shift function. Returns decoded string.\n    \"\"\"\n    return \"\".join([chr((ord(ch) - 5 - ord(\"a\")) % 26 + ord(\"a\")) for ch in s])\n```"
+  },
+  {
+    "task_id": "HumanEval/51",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef remove_vowels(s):\n    vowels = \"aeiouAEIOU\"\n    result = \"\"\n    for char in s:\n        if char not in vowels:\n            result += char\n    return result\n```"
+  },
+  {
+    "task_id": "HumanEval/52",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef below_threshold(l: list, t: int):\n    for num in l:\n        if num >= t:\n            return False\n    return True\n```"
+  },
+  {
+    "task_id": "HumanEval/53",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef add(x, y):\n    return x + y\n```"
+  },
+  {
+    "task_id": "HumanEval/54",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmp8i_sp29y/solution.py\", line 20, in <module>\n    check(same_chars)\n  File \"/tmp/tmp8i_sp29y/solution.py\", line 10, in check\n    assert candidate('eabcdzzzz', 'dddzzzzzzzddeddabc') == True\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+    "req_token": 167,
+    "answer": "```python\ndef same_chars(s1, s2):\n    return sorted(s1) == sorted(s2)\n```"
+  },
+  {
+    "task_id": "HumanEval/55",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef fib(n: int) -> int:\n    if n <= 1:\n        return n\n    a, b = 0, 1\n    for _ in range(2, n + 1):\n        a, b = b, a + b\n    return b\n```"
+  },
+  {
+    "task_id": "HumanEval/56",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmp013e5n68/solution.py\", line 33, in <module>\n    check(correct_bracketing)\n  File \"/tmp/tmp013e5n68/solution.py\", line 22, in check\n    assert not candidate(\"<<<><>>>>\")\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+    "req_token": 167,
+    "answer": "```python\ndef correct_bracketing(brackets: str) -> bool:\n    count = 0\n    for bracket in brackets:\n        if bracket == '(':\n            count += 1\n        elif bracket == ')':\n            count -= 1\n            if count < 0:\n                return False\n    return count == 0\n```"
+  },
+  {
+    "task_id": "HumanEval/57",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef monotonic(lst):\n    if len(lst) <= 1:\n        return True\n    increasing = decreasing = True\n    for i in range(1, len(lst)):\n        if lst[i] < lst[i-1]:\n            increasing = False\n        if lst[i] > lst[i-1]:\n            decreasing = False\n    return increasing or decreasing\n```"
+  },
+  {
+    "task_id": "HumanEval/58",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef common(list1, list2):\n    return sorted(list(set(list1) & set(list2)))\n```"
+  },
+  {
+    "task_id": "HumanEval/59",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef largest_prime_factor(n):\n    \"\"\"Return the largest prime factor of n. Assume n = 1 and is not a prime.\"\"\"\n    largest = -1\n    d = 2\n    while d * d <= n:\n        while n % d == 0:\n            largest = d\n            n //= d\n        d += 1\n    if n > 1:\n        largest = n\n    return largest\n```"
+  },
+  {
+    "task_id": "HumanEval/60",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef sum_to_n(n):\n    return n * (n + 1) // 2\n```"
+  },
+  {
+    "task_id": "HumanEval/61",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef correct_bracketing(brackets: str) -> bool:\n    count = 0\n    for bracket in brackets:\n        if bracket == '(':\n            count += 1\n        else:\n            count -= 1\n            if count < 0:\n                return False\n    return count == 0\n```"
+  },
+  {
+    "task_id": "HumanEval/62",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef derivative(xs: list):\n    \"\"\"xs represent coefficients of a polynomial.\n    xs[0] + xs[1] * x + xs[2] * x^2 + ...\n    Return derivative of this polynomial in the same form.\n    \"\"\"\n    return [i * xs[i] for i in range(1, len(xs))]\n```"
+  },
+  {
+    "task_id": "HumanEval/63",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef fibfib(n: int) -> int:\n    if n == 0:\n        return 0\n    elif n == 1:\n        return 0\n    elif n == 2:\n        return 1\n    else:\n        a, b, c = 0, 0, 1\n        for _ in range(3, n + 1):\n            a, b, c = b, c, a + b + c\n        return c\n```"
+  },
+  {
+    "task_id": "HumanEval/64",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmpc3lmmfec/solution.py\", line 31, in <module>\n    check(vowels_count)\n  File \"/tmp/tmpc3lmmfec/solution.py\", line 19, in check\n    assert candidate(\"Alone\") == 3, \"Test 2\"\n           ^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Test 2\n",
+    "req_token": 167,
+    "answer": "```python\ndef vowels_count(s):\n    \"\"\"Write a function vowels_count which takes a string representing\n    a word as input and returns the number of vowels in the string.\n    Vowels in this case are 'a', 'e', 'i', 'o', 'u'. Here, 'y' is also\n    a vowel, but only when it is at the end of the given word.\n    \"\"\"\n    count = 0\n    for i in range(len(s)):\n        if s[i] in 'aeiou':\n            count += 1\n        elif s[i] == 'y' and i == len(s) - 1:\n            count += 1\n    return count\n```"
+  },
+  {
+    "task_id": "HumanEval/65",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef circular_shift(x, shift):\n    \"\"\"Circular shift the digits of the integer x, shift the digits right by shift\n    and return the result as a string.\n    If shift > number of digits, return digits reversed.\n    \"\"\"\n    s = str(x)\n    n = len(s)\n    if shift > n:\n        return s[::-1]\n    else:\n        shift = shift % n\n        return s[-shift:] + s[:-shift]\n```"
+  },
+  {
+    "task_id": "HumanEval/66",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmpzw2l_u3c/solution.py\", line 26, in <module>\n    check(digitSum)\n  File \"/tmp/tmpzw2l_u3c/solution.py\", line 13, in check\n    assert candidate(\"abAB\") == 131, \"Error\"\n           ^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Error\n",
+    "req_token": 167,
+    "answer": "```python\ndef digitSum(s):\n    total = 0\n    for char in s:\n        if char.isupper():\n            total += ord(char) - ord('A') + 1\n    return total\n```"
+  },
+  {
+    "task_id": "HumanEval/67",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef fruit_distribution(s, n):\n    # Parse the string to extract the number of oranges and apples\n    # The string format is \"X oranges and Y apples\" or similar\n    # We need to extract the numbers before \"oranges\" and \"apples\"\n    parts = s.split()\n    oranges = 0\n    apples = 0\n    \n    # Find the number before \"oranges\"\n    for i, part in enumerate(parts):\n        if part == \"oranges\":\n            oranges = int(parts[i-1])\n            break\n        elif part == \"oranges\" and i == 0:\n            oranges = 0  # This shouldn't happen based on examples\n        elif part == \"oranges\" and i > 0:\n            oranges = int(parts[i-1])\n            break\n    \n    # Find the number before \"apples\"\n    for i, part in enumerate(parts):\n        if part == \"apples\":\n            apples = int(parts[i-1])\n            break\n        elif part == \"apples\" and i == 0:\n            apples = 0  # This shouldn't happen based on examples\n        elif part == \"apples\" and i > 0:\n            apples = int(parts[i-1])\n            break\n    \n    # Calculate mangoes\n    mangoes = n - oranges - apples\n    return mangoes\n```\n\nWait, let me reconsider the parsing logic. The string format might be more straightforward. Let's look at the examples:\n\n- \"5 apples and 6 oranges\" -> 5 + 6 = 11, so mangoes = 100 - 11 = 89? But the example says 89 is not correct, it says 89 is not the answer. Let me re-read.\n\nActually, looking at the examples again:\n\n- \"5 apples and 6 oranges\" -> 5 + 6 = 11, total fruits = 100, so mangoes = 100 - 11 = 89? But the example says 89 is not correct. Wait, the example says \"89\" is not correct, but then says \"89\" is the answer? Let me re-read the example.\n\nActually, the example says: \"fruit_distribution(\"5 apples and 6 oranges\", 100) -> 89\" \u2014 this seems to be the correct answer. But then it says \"89\" is not correct? No, I think I misread. Let me look again.\n\nActually, the example says: \"fruit_distribution(\"5 apples and 6 oranges\", 100) -> 89\" \u2014 this is the correct answer. The example is just showing the result.\n\nLet me re-implement with a more robust approach.\n\n```python\ndef fruit_distribution(s, n):\n    # Split the string by spaces\n    parts = s.split()\n    \n    # Find the number before \"oranges\"\n    oranges = 0\n    for i, part in enumerate(parts):\n        if part == \"oranges\":\n            oranges = int(parts[i-1])\n            break\n    \n    # Find the number before \"apples\"\n    apples = 0\n    for i, part in enumerate(parts):\n        if part == \"apples\":\n            apples = int(parts[i-1])\n            break\n    \n    # Calculate mangoes\n    mangoes = n - oranges - apples\n    return mangoes\n```\n\nThis should work for the given examples. Let me test with the examples:\n\n- \"5 apples and 6 oranges\" -> oranges = 6, apples = 5, mangoes = 100 - 6 - 5 = 89 \u2713\n- \"3 apples and 1 oranges\" -> oranges = 1, apples = 3, mangoes = 100 - 1 - 3 = 96 \u2713\n- \"100 apples and 0 oranges\" -> oranges = 0, apples = 100, mangoes = 100 - 0 - 100 = 0 \u2713\n\nWait, the third example says \"100 apples and 0 oranges\" -> 0, which matches.\n\nActually, the third example in the docstring says \"fruit_distribution(\"100 apples and 0 oranges\", 100) -> 0\", which is correct.\n\nSo the function is correct.\n\n```python\ndef fruit_distribution(s, n):\n    # Split the string by spaces\n    parts = s.split()\n    \n    # Find the number before \"oranges\"\n    oranges = 0\n    for i, part in enumerate(parts):\n        if part == \"oranges\":\n            oranges = int(parts[i-1])\n            break\n    \n    # Find the number before \"apples\"\n    apples = 0\n    for i, part in enumerate(parts):\n        if part == \"app"
+  },
+  {
+    "task_id": "HumanEval/68",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef pluck(arr):\n    if not arr:\n        return []\n    \n    min_val = float('inf')\n    min_idx = -1\n    max_idx = -1\n    \n    for i, val in enumerate(arr):\n        if val % 2 == 0 and val < min_val:\n            min_val = val\n            min_idx = i\n            max_idx = i\n        elif val % 2 == 0 and val == min_val:\n            max_idx = i\n    \n    if min_idx == -1:\n        return []\n    \n    return [min_val, min_idx]\n```"
+  },
+  {
+    "task_id": "HumanEval/69",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef search(lst):\n    # Create a frequency map\n    freq = {}\n    for num in lst:\n        freq[num] = freq.get(num, 0) + 1\n    \n    # Find the greatest integer that is greater than zero\n    # and has frequency >= its value\n    candidates = []\n    for num in lst:\n        if num > 0 and freq[num] >= num:\n            candidates.append(num)\n    \n    if not candidates:\n        return -1\n    \n    return max(candidates)\n```"
+  },
+  {
+    "task_id": "HumanEval/70",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef strange_sort_list(lst):\n    if not lst:\n        return []\n    result = []\n    while lst:\n        min_val = min(lst)\n        result.append(min_val)\n        lst.remove(min_val)\n        if lst:\n            max_val = max(lst)\n            result.append(max_val)\n            lst.remove(max_val)\n    return result\n```"
+  },
+  {
+    "task_id": "HumanEval/71",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\nimport math\n\ndef triangle_area(a, b, c):\n    # Check if the three sides form a valid triangle\n    if a + b <= c or a + c <= b or b + c <= a:\n        return -1\n    \n    # Calculate the semi-perimeter\n    s = (a + b + c) / 2\n    \n    # Calculate the area using Heron's formula\n    area = math.sqrt(s * (s - a) * (s - b) * (s - c))\n    \n    # Round to 2 decimal points\n    return round(area, 2)\n```"
+  },
+  {
+    "task_id": "HumanEval/72",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef will_it_fly(lst, w):\n    # Check if the list is a palindrome\n    if lst != lst[::-1]:\n        return False\n    # Check if the sum of elements is less than or equal to the maximum possible weight\n    if sum(lst) <= w:\n        return True\n    return False\n```"
+  },
+  {
+    "task_id": "HumanEval/73",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef smallest_change(arr):\n    n = len(arr)\n    changes = 0\n    # Compare elements from both ends moving inward\n    for i in range(n // 2):\n        if arr[i] != arr[n - 1 - i]:\n            changes += 1\n    return changes\n```"
+  },
+  {
+    "task_id": "HumanEval/74",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef total_match(lst1, lst2):\n    total1 = sum(len(s) for s in lst1)\n    total2 = sum(len(s) for s in lst2)\n    if total1 < total2:\n        return lst1\n    elif total2 < total1:\n        return lst2\n    else:\n        return lst1\n```"
+  },
+  {
+    "task_id": "HumanEval/75",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef is_multiply_prime(a):\n    def is_prime(n):\n        if n < 2:\n            return False\n        for i in range(2, int(n**0.5) + 1):\n            if n % i == 0:\n                return False\n        return True\n\n    for i in range(2, a):\n        if a % i == 0 and is_prime(i):\n            remaining = a // i\n            for j in range(2, remaining):\n                if remaining % j == 0 and is_prime(j):\n                    if remaining // j > 1 and is_prime(remaining // j):\n                        return True\n    return False\n```"
+  },
+  {
+    "task_id": "HumanEval/76",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmpbmlpvxhl/solution.py\", line 33, in <module>\n    check(is_simple_power)\n          ^^^^^^^^^^^^^^^\nNameError: name 'is_simple_power' is not defined. Did you mean: 'is_single_power'?\n",
+    "req_token": 167,
+    "answer": "```python\ndef is_single_power(x, n):\n    if x == 1:\n        return True\n    if n == 1:\n        return x == 1\n    if n == 0:\n        return x == 1\n    if x < 1 or n < 1:\n        return False\n    power = 1\n    while power < x:\n        power *= n\n    return power == x\n```"
+  },
+  {
+    "task_id": "HumanEval/77",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmpv38g5o8l/solution.py\", line 21, in <module>\n    check(iscube)\n          ^^^^^^\nNameError: name 'iscube' is not defined. Did you mean: 'iscode'?\n",
+    "req_token": 167,
+    "answer": "```python\ndef iscode(a):\n    return a > 0\n```"
+  },
+  {
+    "task_id": "HumanEval/78",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmpda631tn_/solution.py\", line 29, in <module>\n    check(hex_key)\n          ^^^^^^^\nNameError: name 'hex_key' is not defined\n",
+    "req_token": 167,
+    "answer": "```python\ndef hex_prime_count(hex_str):\n    # Define the set of hexadecimal prime digits\n    prime_hex_digits = {'2', '3', '5', '7', 'B', 'D'}\n    \n    # Count the number of prime hexadecimal digits in the input string\n    count = 0\n    for char in hex_str:\n        if char in prime_hex_digits:\n            count += 1\n    \n    return count\n```"
+  },
+  {
+    "task_id": "HumanEval/79",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmpq104mm45/solution.py\", line 17, in <module>\n    check(decimal_to_binary)\n  File \"/tmp/tmpq104mm45/solution.py\", line 7, in check\n    assert candidate(0) == \"db0db\"\n           ^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+    "req_token": 167,
+    "answer": "```python\ndef decimal_to_binary(decimal):\n    return bin(decimal)[2:]\n```"
+  },
+  {
+    "task_id": "HumanEval/80",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef is_happy(s):\n    if len(s) < 3:\n        return False\n    for i in range(len(s) - 2):\n        if s[i] == s[i+1] or s[i+1] == s[i+2] or s[i] == s[i+2]:\n            return False\n    return True\n```"
+  },
+  {
+    "task_id": "HumanEval/81",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmpct1pol0p/solution.py\", line 44, in <module>\n    check(numerical_letter_grade)\n  File \"/tmp/tmpct1pol0p/solution.py\", line 32, in check\n    assert candidate([4.0, 3, 1.7, 2, 3.5]) == ['A+', 'B', 'C-', 'C', 'A-']\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmpct1pol0p/solution.py\", line 2, in numerical_letter_grade\n    if 4.0 <= gpa <= 4.0:\n       ^^^^^^^^^^^^^^^^^\nTypeError: '<=' not supported between instances of 'float' and 'list'\n",
+    "req_token": 167,
+    "answer": "```python\ndef numerical_letter_grade(gpa):\n    if 4.0 <= gpa <= 4.0:\n        return 'A+'\n    elif 3.7 <= gpa < 4.0:\n        return 'A'\n    elif 3.3 <= gpa < 3.7:\n        return 'A-'\n    elif 3.0 <= gpa < 3.3:\n        return 'B+'\n    elif 2.7 <= gpa < 3.0:\n        return 'B'\n    elif 2.3 <= gpa < 2.7:\n        return 'B-'\n    elif 2.0 <= gpa < 2.3:\n        return 'C+'\n    elif 1.7 <= gpa < 2.0:\n        return 'C'\n    elif 1.3 <= gpa < 1.7:\n        return 'C-'\n    elif 1.0 <= gpa < 1.3:\n        return 'D+'\n    elif 0.7 <= gpa < 1.0:\n        return 'D'\n    elif 0.0 <= gpa < 0.7:\n        return 'D-'\n    else:\n        return 'E'\n```"
+  },
+  {
+    "task_id": "HumanEval/82",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef prime_length(string):\n    length = len(string)\n    if length < 2:\n        return False\n    for i in range(2, int(length**0.5) + 1):\n        if length % i == 0:\n            return False\n    return True\n```"
+  },
+  {
+    "task_id": "HumanEval/83",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmpphbyscwk/solution.py\", line 26, in <module>\n    check(starts_one_ends)\n          ^^^^^^^^^^^^^^^\nNameError: name 'starts_one_ends' is not defined. Did you mean: 'starts_one_ends_one'?\n",
+    "req_token": 167,
+    "answer": "```python\ndef starts_one_ends_one(n):\n    if n == 1:\n        return 1\n    # For n-digit numbers that start and end with 1:\n    # The first digit is fixed as 1.\n    # The last digit is fixed as 1.\n    # The middle (n-2) digits can be any digit from 0 to 9, except the first and last are fixed.\n    # So, we have 10^(n-2) possibilities for the middle digits.\n    return 10 ** (n - 2)\n```"
+  },
+  {
+    "task_id": "HumanEval/84",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef solve(N):\n    digit_sum = 0\n    temp = N\n    while temp > 0:\n        digit_sum += temp % 10\n        temp //= 10\n    return bin(digit_sum)[2:]\n```"
+  },
+  {
+    "task_id": "HumanEval/85",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef add(lst):\n    total = 0\n    for i in range(len(lst)):\n        if i % 2 == 1:  # odd index\n            if lst[i] % 2 == 0:  # even element\n                total += lst[i]\n    return total\n```"
+  },
+  {
+    "task_id": "HumanEval/86",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmp0b0mzv_e/solution.py\", line 24, in <module>\n    check(anti_shuffle)\n          ^^^^^^^^^^^^\nNameError: name 'anti_shuffle' is not defined. Did you mean: 'ani_shuffle'?\n",
+    "req_token": 167,
+    "answer": "```python\ndef ani_shuffle(s):\n    words = s.split()\n    shuffled_words = []\n    for word in words:\n        sorted_chars = ''.join(sorted(word))\n        shuffled_words.append(sorted_chars)\n    return ' '.join(shuffled_words)\n```"
+  },
+  {
+    "task_id": "HumanEval/87",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmp97knd26b/solution.py\", line 44, in <module>\n    check(get_row)\n  File \"/tmp/tmp97knd26b/solution.py\", line 13, in check\n    assert candidate([\n           ^^^^^^^^^^^\nAssertionError\n",
+    "req_token": 167,
+    "answer": "```python\ndef get_row(lst, x):\n    result = []\n    for i in range(len(lst)):\n        for j in range(len(lst[i])):\n            if lst[i][j] == x:\n                result.append((i, j))\n    result.sort(key=lambda coord: coord[0])\n    return result\n```"
+  },
+  {
+    "task_id": "HumanEval/88",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef sort_array(array):\n    if len(array) == 0:\n        return []\n    \n    first_index = array[0]\n    last_index = array[-1]\n    sum_index = first_index + last_index\n    \n    if sum_index % 2 == 1:\n        return sorted(array)\n    else:\n        return sorted(array, reverse=True)\n```"
+  },
+  {
+    "task_id": "HumanEval/89",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmpglw5hne2/solution.py\", line 30, in <module>\n    check(encrypt)\n  File \"/tmp/tmpglw5hne2/solution.py\", line 16, in check\n    assert candidate('hi') == 'lm', \"This prints if this assert fails 1 (good for debugging!)\"\n           ^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: This prints if this assert fails 1 (good for debugging!)\n",
+    "req_token": 167,
+    "answer": "```python\ndef encrypt(s):\n    result = \"\"\n    for char in s:\n        if 'a' <= char <= 'z':\n            # Shift down by two places (wrap around if needed)\n            shifted = ord(char) - ord('a') - 2\n            shifted = shifted % 26\n            result += chr(shifted + ord('a'))\n        else:\n            result += char\n    return result\n```"
+  },
+  {
+    "task_id": "HumanEval/90",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef next_smallest(lst):\n    if len(lst) < 2:\n        return None\n    unique_sorted = sorted(set(lst))\n    if len(unique_sorted) < 2:\n        return None\n    return unique_sorted[1]\n```"
+  },
+  {
+    "task_id": "HumanEval/91",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmpjzr3sel0/solution.py\", line 26, in <module>\n    check(is_bored)\n  File \"/tmp/tmpjzr3sel0/solution.py\", line 15, in check\n    assert candidate(\"Is the sky blue?\") == 0, \"Test 2\"\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Test 2\n",
+    "req_token": 167,
+    "answer": "```python\ndef is_bored(s):\n    if not s:\n        return 0\n    sentences = s.split('.')\n    count = 0\n    for sentence in sentences:\n        if sentence.strip().startswith('I'):\n            count += 1\n    return count\n```"
+  },
+  {
+    "task_id": "HumanEval/92",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef any_int(x, y, z):\n    return isinstance(x, int) and isinstance(y, int) and isinstance(z, int) and (x == y + z or y == x + z or z == x + y)\n```"
+  },
+  {
+    "task_id": "HumanEval/93",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmpqfgzq0jj/solution.py\", line 35, in <module>\n    check(encode)\n  File \"/tmp/tmpqfgzq0jj/solution.py\", line 25, in check\n    assert candidate('TEST') == 'tgst', \"This prints if this assert fails 1 (good for debugging!)\"\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: This prints if this assert fails 1 (good for debugging!)\n",
+    "req_token": 167,
+    "answer": "```python\ndef encode(message):\n    vowels = \"aeiouAEIOU\"\n    result = \"\"\n    for char in message:\n        if char in vowels:\n            # Find the position of the vowel in the alphabet\n            if char.islower():\n                # For lowercase, find the vowel in lowercase\n                vowel_pos = ord(char) - ord('a')\n                # Replace with the letter 2 places ahead\n                new_char = chr(ord('a') + (vowel_pos + 2) % 26)\n            else:\n                # For uppercase, find the vowel in uppercase\n                vowel_pos = ord(char) - ord('A')\n                # Replace with the letter 2 places ahead\n                new_char = chr(ord('A') + (vowel_pos + 2) % 26)\n            result += new_char\n        else:\n            result += char\n    return result\n```"
+  },
+  {
+    "task_id": "HumanEval/94",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmpqogikovx/solution.py\", line 48, in <module>\n    check(skjkasdkd)\n          ^^^^^^^^^\nNameError: name 'skjkasdkd' is not defined\n",
+    "req_token": 167,
+    "answer": "```python\ndef getSumOfDigits(lst):\n    def is_prime(n):\n        if n < 2:\n            return False\n        for i in range(2, int(n**0.5) + 1):\n            if n % i == 0:\n                return False\n        return True\n\n    def sum_of_digits(n):\n        return sum(int(digit) for digit in str(abs(n)))\n\n    max_prime = None\n    for num in lst:\n        if is_prime(num):\n            if max_prime is None or num > max_prime:\n                max_prime = num\n\n    if max_prime is None:\n        return 0\n    return sum_of_digits(max_prime)\n```"
+  },
+  {
+    "task_id": "HumanEval/95",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef check_dict_case(dic):\n    if not dic:\n        return False\n    all_lower = all(isinstance(k, str) and k.islower() for k in dic.keys())\n    all_upper = all(isinstance(k, str) and k.isupper() for k in dic.keys())\n    return all_lower or all_upper\n```"
+  },
+  {
+    "task_id": "HumanEval/96",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef count_up_to(n):\n    if n <= 2:\n        return []\n    primes = [2]\n    for num in range(3, n):\n        is_prime = True\n        for prime in primes:\n            if prime * prime > num:\n                break\n            if num % prime == 0:\n                is_prime = False\n                break\n        if is_prime:\n            primes.append(num)\n    return primes\n```"
+  },
+  {
+    "task_id": "HumanEval/97",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef multiply(a, b):\n    \"\"\"Completes the function that takes two integers and returns\n    the product of their unit digits.\n    Assume the input is always valid!\n    Examples:\n    multiply(4, 4): should return 16.\n    multiply(19, 28): should return 72.\n    multiply(2000, 1001): should return 0.\n    \"\"\"\n    return (a % 10) * (b % 10)\n```"
+  },
+  {
+    "task_id": "HumanEval/98",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef count_upper(s):\n    count = 0\n    for i in range(0, len(s), 2):  # iterate over even indices\n        if s[i] in 'AEIOU':\n            count += 1\n    return count\n```"
+  },
+  {
+    "task_id": "HumanEval/99",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmpyfre8kq2/solution.py\", line 22, in <module>\n    check(closest_integer)\n  File \"/tmp/tmpyfre8kq2/solution.py\", line 13, in check\n    assert candidate(\"14.5\") == 15, \"Test 2\"\n           ^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Test 2\n",
+    "req_token": 167,
+    "answer": "```python\ndef closest_integer(value):\n    num = float(value)\n    rounded = round(num)\n    if abs(num - rounded) < 1e-10:\n        return int(rounded)\n    else:\n        return int(round(num))\n```\n\nWait, let me re-read the problem. The requirement is to round away from zero when equidistant. Let me fix this.\n\n```python\ndef closest_integer(value):\n    num = float(value)\n    if num == int(num):\n        return int(num)\n    else:\n        rounded = round(num)\n        if abs(num - rounded) < 1e-10:\n            return int(rounded)\n        else:\n            return int(round(num))\n```\n\nActually, I'm overcomplicating this. Let me think again.\n\nThe problem says: if the number is equidistant from two integers, round away from zero.\n\nFor example: closest_integer(\"14.5\") should return 15, and closest_integer(\"-14.5\") should return -15.\n\nThe `round()` function in Python rounds to the nearest even number when equidistant, which is not what we want.\n\nLet me implement this correctly:\n\n```python\ndef closest_integer(value):\n    num = float(value)\n    if num > 0:\n        return int(num + 0.5)\n    else:\n        return int(num - 0.5)\n```\n\nWait, that's not right either. For negative numbers, subtracting 0.5 would make it round away from zero, but let's test:\n\n- 14.5 -> 14.5 + 0.5 = 15.0 -> 15 \u2713\n- -14.5 -> -14.5 - 0.5 = -15.0 -> -15 \u2713\n\nActually, that works! But what about numbers that are not exactly halfway? For example, 14.3 should round to 14, and 14.7 should round to 15.\n\nThe `round()` function handles that correctly, but we need to handle the equidistant case specially.\n\nLet me implement it properly:\n\n```python\ndef closest_integer(value):\n    num = float(value)\n    if num == int(num):\n        return int(num)\n    else:\n        if num > 0:\n            return int(num + 0.5)\n        else:\n            return int(num - 0.5)\n```\n\nActually, let me test this with the examples:\n\n- closest_integer(\"10\") -> 10.0 == 10 -> return 10 \u2713\n- closest_integer(\"15.3\") -> 15.3 > 0 -> 15.3 + 0.5 = 15.8 -> int(15.8) = 15 \u2713\n- closest_integer(\"14.5\") -> 14.5 > 0 -> 14.5 + 0.5 = 15.0 -> int(15.0) = 15 \u2713\n- closest_integer(\"-14.5\") -> -14.5 < 0 -> -14.5 - 0.5 = -15.0 -> int(-15.0) = -15 \u2713\n\nThis looks correct!\n\n```python\ndef closest_integer(value):\n    num = float(value)\n    if num == int(num):\n        return int(num)\n    else:\n        if num > 0:\n            return int(num + 0.5)\n        else:\n            return int(num - 0.5)\n```"
+  },
+  {
+    "task_id": "HumanEval/100",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmpzd03qdp1/solution.py\", line 27, in <module>\n    check(make_a_pile)\n  File \"/tmp/tmpzd03qdp1/solution.py\", line 16, in check\n    assert candidate(3) == [3, 5, 7], \"Test 3\"\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Test 3\n",
+    "req_token": 167,
+    "answer": "```python\ndef make_a_pile(n):\n    pile = [n]\n    current = n\n    for i in range(1, n):\n        if current % 2 == 0:\n            next_level = current - 1\n        else:\n            next_level = current + 1\n        pile.append(next_level)\n        current = next_level\n    return pile\n```"
+  },
+  {
+    "task_id": "HumanEval/101",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmpy24xjb9r/solution.py\", line 20, in <module>\n    check(words_string)\n  File \"/tmp/tmpy24xjb9r/solution.py\", line 8, in check\n    assert candidate(\"Hi, my name is John\") == [\"Hi\", \"my\", \"name\", \"is\", \"John\"]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+    "req_token": 167,
+    "answer": "```python\ndef words_string(s):\n    return s.split()\n```"
+  },
+  {
+    "task_id": "HumanEval/102",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef choose_num(x, y):\n    \"\"\"This Function takes two positive numbers x and y and returns the biggest even integer number that is in the range [x, y] inclusive. If there's no such number, then the function should return -1.\n    For example:\n    choose_num(12, 15) = 14\n    choose_num(13, 12) = -1\n    \"\"\"\n    if x > y:\n        return -1\n    # Start from y and go downwards to find the biggest even number\n    for i in range(y, x - 1, -1):\n        if i % 2 == 0:\n            return i\n    return -1\n```"
+  },
+  {
+    "task_id": "HumanEval/103",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmp9od36lg2/solution.py\", line 33, in <module>\n    check(rounded_avg)\n  File \"/tmp/tmp9od36lg2/solution.py\", line 15, in check\n    assert candidate(1, 5) == \"0b11\"\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+    "req_token": 167,
+    "answer": "```python\ndef rounded_avg(n, m):\n    if n > m:\n        return -1\n    \n    total = sum(range(n, m + 1))\n    count = m - n + 1\n    average = total / count\n    rounded = round(average)\n    \n    return bin(rounded)[2:]\n```"
+  },
+  {
+    "task_id": "HumanEval/104",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef unique_digits(x):\n    result = []\n    for num in x:\n        has_even = False\n        temp = num\n        while temp > 0:\n            digit = temp % 10\n            if digit % 2 == 0:\n                has_even = True\n                break\n            temp //= 10\n        if not has_even:\n            result.append(num)\n    return sorted(result)\n```"
+  },
+  {
+    "task_id": "HumanEval/105",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmpjl7k2r3z/solution.py\", line 46, in <module>\n    check(by_length)\n          ^^^^^^^^^\nNameError: name 'by_length' is not defined\n",
+    "req_token": 167,
+    "answer": "```python\ndef sort_and_reverse(arr):\n    if len(arr) == 0:\n        return []\n    \n    # Filter numbers between 1 and 9 inclusive\n    filtered = [x for x in arr if 1 <= x <= 9]\n    \n    # Sort the filtered numbers\n    filtered.sort()\n    \n    # Reverse the sorted array\n    reversed_arr = filtered[::-1]\n    \n    # Replace each digit with its corresponding name\n    name_map = {\n        1: \"One\",\n        2: \"Two\",\n        3: \"Three\",\n        4: \"Four\",\n        5: \"Five\",\n        6: \"Six\",\n        7: \"Seven\",\n        8: \"Eight\",\n        9: \"Nine\"\n    }\n    \n    result = [name_map[x] for x in reversed_arr]\n    \n    return result\n```"
+  },
+  {
+    "task_id": "HumanEval/106",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef f(n):\n    result = []\n    for i in range(1, n + 1):\n        if i % 2 == 0:\n            # i is even, add factorial of i\n            factorial = 1\n            for j in range(1, i + 1):\n                factorial *= j\n            result.append(factorial)\n        else:\n            # i is odd, add sum of numbers from 1 to i\n            total = sum(range(1, i + 1))\n            result.append(total)\n    return result\n```"
+  },
+  {
+    "task_id": "HumanEval/107",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmpvcdg4wq1/solution.py\", line 34, in <module>\n    check(even_odd_palindrome)\n          ^^^^^^^^^^^^^^^^^^^\nNameError: name 'even_odd_palindrome' is not defined. Did you mean: 'count_even_odd_palindromes'?\n",
+    "req_token": 167,
+    "answer": "```python\ndef count_even_odd_palindromes(n):\n    def is_palindrome(num):\n        s = str(num)\n        return s == s[::-1]\n    \n    even_count = 0\n    odd_count = 0\n    \n    for i in range(1, n + 1):\n        if is_palindrome(i):\n            if i % 2 == 0:\n                even_count += 1\n            else:\n                odd_count += 1\n    \n    return (even_count, odd_count)\n```"
+  },
+  {
+    "task_id": "HumanEval/108",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmpt1tpw3la/solution.py\", line 32, in <module>\n    check(count_nums)\n  File \"/tmp/tmpt1tpw3la/solution.py\", line 19, in check\n    assert candidate([-1, -2, 0]) == 0\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+    "req_token": 167,
+    "answer": "```python\ndef count_nums(arr):\n    count = 0\n    for num in arr:\n        if num == 0:\n            continue\n        sign = -1 if num < 0 else 1\n        num = abs(num)\n        while num > 0:\n            digit = num % 10\n            num //= 10\n            if digit != 0:\n                count += 1\n    return count\n```"
+  },
+  {
+    "task_id": "HumanEval/109",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmpwmxmiywy/solution.py\", line 70, in <module>\n    check(move_one_ball)\n          ^^^^^^^^^^^^^\nNameError: name 'move_one_ball' is not defined. Did you mean: 'solve_one_ball'?\n",
+    "req_token": 167,
+    "answer": "```python\ndef solve_one_ball(arr):\n    n = len(arr)\n    if n <= 1:\n        return True\n    \n    # Count the number of inversions\n    inversions = 0\n    for i in range(n):\n        for j in range(i + 1, n):\n            if arr[i] > arr[j]:\n                inversions += 1\n    \n    # If there are no inversions, the array is already non-decreasing\n    if inversions == 0:\n        return True\n    \n    # The key insight: we can only move the last element to the front\n    # by performing right shift operations. This means that the last\n    # element can be moved to any position, but the relative order\n    # of the other elements remains the same.\n    \n    # However, we can also think of it this way:\n    # We can perform any number of right shifts, which means we can\n    # rotate the array to any starting position.\n    # So we need to check if there exists a rotation of the array\n    # that is non-decreasing.\n    \n    # But note: the problem says \"right shift operation\" means\n    # moving the last element to the front. So we can only rotate\n    # the array to the left (since right shift moves last to front).\n    # Actually, performing a right shift multiple times is equivalent\n    # to rotating the array to the left.\n    \n    # Let's try a different approach:\n    # We can simulate the process: we can move the last element\n    # to the front, then the new last element to the front, etc.\n    # But we can also think: we can get any rotation of the array.\n    # So we need to check if any rotation of the array is non-decreasing.\n    \n    # However, there's a catch: the problem says \"right shift operation\"\n    # means moving the last element to the front. So we can only get\n    # rotations that are left rotations (i.e., we can get arr[n-1], arr[0], arr[1], ...).\n    # But actually, performing k right shifts is equivalent to rotating\n    # the array left by k positions.\n    \n    # So we can check all possible rotations.\n    for i in range(n):\n        # Check if rotation starting at index i is non-decreasing\n        is_non_decreasing = True\n        for j in range(1, n):\n            if arr[(i + j) % n] < arr[(i + j - 1) % n]:\n                is_non_decreasing = False\n                break\n        if is_non_decreasing:\n            return True\n    \n    return False\n```\n\nWait, I think I'm overcomplicating this. Let me re-read the problem.\n\nThe problem says: \"You are allowed to perform right shift operation on the given array. One right shift operation means shifting all elements of the array by one position in the right direction. The last element of the array will be moved to the starting position in the array.\"\n\nSo, if we have [1, 2, 3], a right shift gives [3, 1, 2].\n\nWe can perform any number of right shifts, so we can get any rotation of the array.\n\nBut the problem is asking: is it possible to get a non-decreasing array by performing any number of right shifts?\n\nSo we need to check if any rotation of the array is non-decreasing.\n\nActually, let me think about the example:\n- [4, 5, 1, 2] -> right shift: [2, 4, 5, 1] -> right shift: [1, 2, 4, 5] -> which is non-decreasing.\n\nSo we need to check if any rotation of the array is non-decreasing.\n\nBut there's a more efficient way: we can check if the array can be sorted by rotations.\n\nActually, the key insight is: we can get any rotation, so we need to check if any rotation is non-decreasing.\n\nBut there's a catch: the problem says \"non-decreasing order\", which means we can have equal elements, but the array is guaranteed to have unique elements.\n\nSo we can check all rotations.\n\nHowever, there's a more efficient way: we can check if the array can be sorted by rotations.\n\nActually, let me think: if we can get any rotation, then we need to check if any rotation is non-decreasing.\n\nBut there's a simpler way: we can check if the array can be sorted by rotations.\n\nActually, the problem is equivalent to: can we rotate the array to get a sorted array?\n\nBut since the array has unique elements, a sorted array is unique.\n\nSo we can check if any rotation is sorted.\n\nBut there's a more efficient way: we can check if the array can be sorted by rotations.\n\nActually, let me think about the condition for a"
+  },
+  {
+    "task_id": "HumanEval/110",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef exchange(lst1, lst2):\n    # Count odd numbers in both lists\n    odd1 = sum(1 for x in lst1 if x % 2 != 0)\n    odd2 = sum(1 for x in lst2 if x % 2 != 0)\n    \n    # Check if we can make all elements in lst1 even\n    # We need to have at least 'odd1' even numbers in lst2 to exchange with\n    # The even numbers in lst1 can stay or be exchanged, but we need to cover all odd numbers in lst1\n    # The even numbers in lst2 can be used to replace odd numbers in lst1\n    # The odd numbers in lst2 can be replaced by even numbers from lst1\n    # So, we need to check if we have enough even numbers in lst2 to cover all odd numbers in lst1\n    # and enough odd numbers in lst2 to cover all odd numbers in lst1 (which is not needed for lst1 to be all even)\n    # Actually, we only need to check if we have enough even numbers in lst2 to cover all odd numbers in lst1\n    # because we can exchange odd numbers from lst1 with even numbers from lst2\n    # and we don't care about lst2 as long as we can make lst1 all even\n    \n    # We need to exchange all odd numbers in lst1 with even numbers from lst2\n    # So we need at least 'odd1' even numbers in lst2\n    even2 = sum(1 for x in lst2 if x % 2 == 0)\n    \n    # If we have enough even numbers in lst2 to cover all odd numbers in lst1, return \"YES\"\n    if even2 >= odd1:\n        return \"YES\"\n    else:\n        return \"NO\"\n```"
+  },
+  {
+    "task_id": "HumanEval/111",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef histogram(text):\n    if not text:\n        return {}\n    \n    # Count frequency of each letter\n    count = {}\n    for char in text:\n        if char.isalpha() and char.isascii():\n            char = char.lower()\n            count[char] = count.get(char, 0) + 1\n    \n    # Find the maximum count\n    max_count = max(count.values()) if count else 0\n    \n    # Return dictionary of letters with max count\n    result = {letter: count[letter] for letter in count if count[letter] == max_count}\n    \n    return result\n```"
+  },
+  {
+    "task_id": "HumanEval/112",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmpsm8ure3u/solution.py\", line 21, in <module>\n    check(reverse_delete)\n  File \"/tmp/tmpsm8ure3u/solution.py\", line 10, in check\n    assert candidate(\"abcde\",\"ae\") == ('bcd',False)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+    "req_token": 167,
+    "answer": "```python\ndef reverse_delete(s, c):\n    # Remove all characters in s that are equal to c\n    result = ''.join(char for char in s if char != c)\n    # Check if the result is a palindrome\n    is_palindrome = result == result[::-1]\n    return (result, is_palindrome)\n```"
+  },
+  {
+    "task_id": "HumanEval/113",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmpocbpikpq/solution.py\", line 27, in <module>\n    check(odd_count)\n  File \"/tmp/tmpocbpikpq/solution.py\", line 14, in check\n    assert candidate(['1234567']) == [\"the number of odd elements 4n the str4ng 4 of the 4nput.\"], \"Test 1\"\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Test 1\n",
+    "req_token": 167,
+    "answer": "```python\ndef odd_count(lst):\n    result = []\n    for s in lst:\n        count = 0\n        for char in s:\n            if int(char) % 2 == 1:\n                count += 1\n        result.append(f\"The number of odd elements in the string {count} of the input.\")\n    return result\n```"
+  },
+  {
+    "task_id": "HumanEval/114",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef minSubArraySum(nums):\n    min_sum = float('inf')\n    current_sum = 0\n    \n    for num in nums:\n        current_sum += num\n        min_sum = min(min_sum, current_sum)\n        if current_sum > 0:\n            current_sum = 0\n    \n    return min_sum\n```"
+  },
+  {
+    "task_id": "HumanEval/115",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmpr37nreql/solution.py\", line 24, in <module>\n    check(max_fill)\n          ^^^^^^^^\nNameError: name 'max_fill' is not defined. Did you mean: 'min_fill'?\n",
+    "req_token": 167,
+    "answer": "```python\ndef min_fill(grid, capacity):\n    total_water = 0\n    for row in grid:\n        for well in row:\n            total_water += well\n    return math.ceil(total_water / capacity)\n```"
+  },
+  {
+    "task_id": "HumanEval/116",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmpxj1b5mn5/solution.py\", line 29, in <module>\n    check(sort_array)\n  File \"/tmp/tmpxj1b5mn5/solution.py\", line 15, in check\n    assert candidate([1,5,2,3,4]) == [1, 2, 4, 3, 5]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+    "req_token": 167,
+    "answer": "```python\ndef sort_array(arr):\n    def count_ones(n):\n        count = 0\n        while n:\n            count += n & 1\n            n >>= 1\n        return count\n    \n    return sorted(arr, key=count_ones)\n```"
+  },
+  {
+    "task_id": "HumanEval/117",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef select_words(s, n):\n    words = s.split()\n    result = []\n    for word in words:\n        consonant_count = 0\n        for char in word:\n            if char.isalpha() and char.lower() not in 'aeiou':\n                consonant_count += 1\n        if consonant_count == n:\n            result.append(word)\n    return result\n```"
+  },
+  {
+    "task_id": "HumanEval/118",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmpadn1_wn0/solution.py\", line 31, in <module>\n    check(get_closest_vowel)\n  File \"/tmp/tmpadn1_wn0/solution.py\", line 12, in check\n    assert candidate(\"yogurt\") == \"u\"\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+    "req_token": 167,
+    "answer": "```python\ndef get_closest_vowel(word):\n    vowels = \"aeiouAEIOU\"\n    for i in range(1, len(word) - 1):\n        if word[i] in vowels:\n            if word[i-1].isalpha() and word[i+1].isalpha():\n                return word[i]\n    return \"\"\n```"
+  },
+  {
+    "task_id": "HumanEval/119",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmpwrs0z1z1/solution.py\", line 49, in <module>\n    check(match_parens)\n          ^^^^^^^^^^^^\nNameError: name 'match_parens' is not defined. Did you mean: 'match_paren'?\n",
+    "req_token": 167,
+    "answer": "```python\ndef match_paren(s):\n    count = 0\n    for char in s:\n        if char == '(':\n            count += 1\n        else:\n            count -= 1\n            if count < 0:\n                return False\n    return count == 0\n\ndef match_paren_list(lst):\n    if len(lst) == 0:\n        return 'yes'\n    if len(lst) == 1:\n        return 'yes' if match_paren(lst[0]) else 'no'\n    if len(lst) == 2:\n        if match_paren(lst[0]) and match_paren(lst[1]):\n            return 'yes'\n        if match_paren(lst[0]) and not match_paren(lst[1]):\n            return 'yes' if match_paren(lst[1]) else 'no'\n        if not match_paren(lst[0]) and match_paren(lst[1]):\n            return 'yes' if match_paren(lst[0]) else 'no'\n        if not match_paren(lst[0]) and not match_paren(lst[1]):\n            return 'no'\n    return 'no'\n```\n\nWait, I need to re-read the problem. The function `match_paren_list` should check if there's a way to concatenate the two strings in some order to make a good string. Let me correct this.\n\n```python\ndef match_paren(s):\n    count = 0\n    for char in s:\n        if char == '(':\n            count += 1\n        else:\n            count -= 1\n            if count < 0:\n                return False\n    return count == 0\n\ndef match_paren_list(lst):\n    if len(lst) == 0:\n        return 'yes'\n    if len(lst) == 1:\n        return 'yes' if match_paren(lst[0]) else 'no'\n    if len(lst) == 2:\n        if match_paren(lst[0] + lst[1]):\n            return 'yes'\n        if match_paren(lst[1] + lst[0]):\n            return 'yes'\n        return 'no'\n    return 'no'\n```\n\nActually, the problem says \"both strings consist of open parentheses '(' or close parentheses ')'\", and we need to check if there's a way to concatenate the two strings in some order to make a good string. Let me re-read the docstring again.\n\nThe docstring says: \"Your job is to check if it is possible to concatenate the two strings in some order. that the resulting string will be good.\"\n\nSo for two strings, we need to check if either concatenation (first + second or second + first) results in a balanced string.\n\n```python\ndef match_paren(s):\n    count = 0\n    for char in s:\n        if char == '(':\n            count += 1\n        else:\n            count -= 1\n            if count < 0:\n                return False\n    return count == 0\n\ndef match_paren_list(lst):\n    if len(lst) == 0:\n        return 'yes'\n    if len(lst) == 1:\n        return 'yes' if match_paren(lst[0]) else 'no'\n    if len(lst) == 2:\n        if match_paren(lst[0] + lst[1]) or match_paren(lst[1] + lst[0]):\n            return 'yes'\n        return 'no'\n    return 'no'\n```\n\nWait, the problem says \"both strings consist of open parentheses '(' or close parentheses ')'\" and we need to check if there's a way to concatenate the two strings in some order to make a good string. The example given is `match_paren_list(['()', '()'])` which should return 'yes' because both concatenations are good.\n\nActually, let me check the example: `match_paren_list(['()', '()'])` should return 'yes'. But the example in the docstring is `match_paren_list(['((', ')'])` which should return 'yes' because `(())` is good.\n\nLet me re-read the example: `match_paren_list(['((', ')'])` should return 'yes' because `(())` is good.\n\nSo the function should check if either concatenation is good.\n\n```python\ndef match_paren(s):\n    count = 0\n    for char in s:\n        if char == '(':\n            count += 1\n        else:\n            count -= 1\n            if count < 0:\n                return False\n    return count == 0\n\ndef match_paren_list(lst):\n    if len(lst) == 0:\n        return 'yes'\n    if len(lst) == 1:\n        return 'yes' if match_paren(lst[0]) else 'no'\n    if len(lst) == 2:\n        if match_paren(lst[0] + lst[1]) or match_paren(lst["
+  },
+  {
+    "task_id": "HumanEval/120",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmp3d6q6ceo/solution.py\", line 24, in <module>\n    check(maximum)\n  File \"/tmp/tmp3d6q6ceo/solution.py\", line 8, in check\n    assert candidate([-3, -4, 5], 3) == [-4, -3, 5]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+    "req_token": 167,
+    "answer": "```python\ndef maximum(arr, k):\n    arr.sort(reverse=True)\n    return arr[:k]\n```"
+  },
+  {
+    "task_id": "HumanEval/121",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmpnv9bjq77/solution.py\", line 24, in <module>\n    check(solution)\n  File \"/tmp/tmpnv9bjq77/solution.py\", line 12, in check\n    assert candidate([5, 8, 7, 1])    == 12\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+    "req_token": 167,
+    "answer": "```python\ndef solution(lst):\n    total = 0\n    for i in range(len(lst)):\n        if i % 2 == 1:  # even positions (0-indexed, so 1, 3, 5, ...)\n            if lst[i] % 2 == 1:  # odd elements\n                total += lst[i]\n    return total\n```"
+  },
+  {
+    "task_id": "HumanEval/122",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmp5_dvu1ip/solution.py\", line 21, in <module>\n    check(add_elements)\n          ^^^^^^^^^^^^\nNameError: name 'add_elements' is not defined. Did you mean: 'sum_elements'?\n",
+    "req_token": 167,
+    "answer": "```python\ndef sum_elements(arr, k):\n    total = 0\n    for i in range(min(k, len(arr))):\n        if len(str(abs(arr[i]))) <= 2:\n            total += arr[i]\n    return total\n```"
+  },
+  {
+    "task_id": "HumanEval/123",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef get_odd_collatz(n):\n    odd_numbers = []\n    current = n\n    while current != 1:\n        if current % 2 == 1:\n            odd_numbers.append(current)\n        if current % 2 == 0:\n            current = current // 2\n        else:\n            current = current * 3 + 1\n    odd_numbers.append(1)\n    return sorted(odd_numbers)\n```"
+  },
+  {
+    "task_id": "HumanEval/124",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmp7m7nfcn4/solution.py\", line 61, in <module>\n    check(valid_date)\n  File \"/tmp/tmp7m7nfcn4/solution.py\", line 28, in check\n    assert candidate('03-11-2000') == True\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+    "req_token": 167,
+    "answer": "```python\ndef valid_date(date):\n    try:\n        parts = date.split('-')\n        if len(parts) != 3:\n            return False\n        year = int(parts[0])\n        month = int(parts[1])\n        day = int(parts[2])\n        \n        # Check if month is valid\n        if month < 1 or month > 12:\n            return False\n        \n        # Check if day is valid for the given month\n        days_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]\n        if month == 2 and year % 4 == 0 and (year % 100 != 0 or year % 400 == 0):\n            days_in_month[1] = 29\n        if day < 1 or day > days_in_month[month - 1]:\n            return False\n        \n        return True\n    except:\n        return False\n```"
+  },
+  {
+    "task_id": "HumanEval/125",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmpmfg2zj73/solution.py\", line 19, in <module>\n    check(split_words)\n  File \"/tmp/tmpmfg2zj73/solution.py\", line 10, in check\n    assert candidate(\"Hello,world!\") == [\"Hello\",\"world!\"]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+    "req_token": 167,
+    "answer": "```python\ndef split_words(txt):\n    if ' ' in txt:\n        return txt.split()\n    else:\n        return sum(1 for c in txt if 'a' <= c <= 'z')\n```"
+  },
+  {
+    "task_id": "HumanEval/126",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmp_95_h678/solution.py\", line 30, in <module>\n    check(is_sorted)\n  File \"/tmp/tmp_95_h678/solution.py\", line 23, in check\n    assert candidate([1, 2, 2, 2, 3, 4]) == False, \"This prints if this assert fails 5 (good for debugging!)\"\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: This prints if this assert fails 5 (good for debugging!)\n",
+    "req_token": 167,
+    "answer": "```python\ndef is_sorted(lst):\n    if len(lst) <= 1:\n        return True\n    for i in range(1, len(lst)):\n        if lst[i] < lst[i-1]:\n            return False\n    return True\n```"
+  },
+  {
+    "task_id": "HumanEval/127",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef is_prime(n):\n    if n < 2:\n        return False\n    for i in range(2, int(n**0.5) + 1):\n        if n % i == 0:\n            return False\n    return True\n\ndef intersection(interval1, interval2):\n    start1, end1 = interval1\n    start2, end2 = interval2\n    \n    # Find the intersection\n    left = max(start1, start2)\n    right = min(end1, end2)\n    \n    # Check if there is an intersection\n    if left >= right:\n        return \"NO\"\n    \n    # Length of intersection\n    length = right - left\n    \n    # Check if length is prime\n    if is_prime(length):\n        return \"YES\"\n    else:\n        return \"NO\"\n```"
+  },
+  {
+    "task_id": "HumanEval/128",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmpxyovb8s9/solution.py\", line 30, in <module>\n    check(prod_signs)\n  File \"/tmp/tmpxyovb8s9/solution.py\", line 16, in check\n    assert candidate([1, 2, 2, -4]) == -9\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+    "req_token": 167,
+    "answer": "```python\ndef prod_signs(arr):\n    if len(arr) == 0:\n        return None\n    product = 1\n    for num in arr:\n        if num < 0:\n            product *= -1\n        elif num == 0:\n            return 0\n    return product\n```"
+  },
+  {
+    "task_id": "HumanEval/129",
+    "passed": false,
+    "error": "No code extracted",
+    "req_token": 167,
+    "answer": "```python\nfrom typing import List\n\ndef find_min_path(grid: List[List[int]], k: int) -> List[int]:\n    n = len(grid)\n    m = len(grid[0])\n    \n    # BFS to find the minimum path of length k\n    from collections import deque\n    \n    # We'll use a queue to store (path, row, col)\n    # path is a list of values visited so far\n    queue = deque()\n    \n    # Start from every cell\n    for i in range(n):\n        for j in range(m):\n            queue.append(([grid[i][j]], i, j))\n    \n    # We need to find a path of exactly length k\n    # We'll use BFS to explore all possible paths of length k\n    # Since we want the lexicographically smallest path, we can sort the paths at the end\n    # But we can also use a priority queue to always pick the lexicographically smallest path\n    \n    # Instead, we can use BFS and at each level, we keep track of the lexicographically smallest path\n    # But since we want the lexicographically smallest path of length k, we can do:\n    # For each level, we generate all possible next steps and keep the lexicographically smallest path\n    \n    # We'll use a different approach: we'll generate all paths of length k and pick the lexicographically smallest\n    # But that might be too slow for large grids\n    \n    # Better approach: use BFS with a priority queue (min-heap) to always pick the lexicographically smallest path\n    import heapq\n    \n    # We'll use a min-heap: (path, row, col)\n    # The path is a tuple of values, so we can compare lexicographically\n    heap = []\n    \n    # Start from every cell\n    for i in range(n):\n        for j in range(m):\n            heapq.heappush(heap, (tuple([grid[i][j]]), i, j))\n    \n    # We'll keep track of visited states to avoid cycles\n    # But note: we can revisit cells, so we need to track the path, not just the cell\n    # However, since we want the lexicographically smallest path, we can use a visited set for (row, col, path_length)\n    # But that might be too heavy\n    \n    # Alternative: since k is small (<= 1000), we can use BFS with pruning\n    # We'll use a queue and at each level, we'll keep the lexicographically smallest path for each (row, col)\n    # But we need to consider that we can revisit cells, so we need to track the path\n    \n    # Let's use a different approach: we'll use BFS and at each level, we'll keep the lexicographically smallest path\n    # We'll use a dictionary to store the lexicographically smallest path to reach (row, col) with a given length\n    # But since k is small, we can do BFS up to k steps\n    \n    # We'll use a queue: (path, row, col, length)\n    # We'll use a visited set to avoid revisiting the same (row, col) with the same length and same path\n    # But since we can revisit cells, we need to track the path\n    \n    # Instead, we'll use a dictionary: key is (row, col, length), value is the lexicographically smallest path to reach (row, col) with that length\n    # But we can also use a simple BFS with pruning: at each level, we keep only the lexicographically smallest path for each (row, col)\n    \n    # Let's use a dictionary: key is (row, col), value is a list of (path, length) tuples, sorted by path lexicographically\n    # But we can also use a simple BFS with a priority queue\n    \n    # We'll use a priority queue: (path, row, col, length)\n    # The path is a tuple, so we can compare lexicographically\n    # We'll use a visited set to avoid revisiting the same (row, col) with the same length and same path\n    # But since we can revisit cells, we need to track the path\n    \n    # We'll use a visited set: (row, col, length, path_tuple) - but that's too heavy\n    \n    # Instead, we'll use a dictionary: key is (row, col, length), value is the lexicographically smallest path to reach (row, col) with that length\n    # But we can also use a simple BFS with pruning: at each level, we keep only the lexicographically smallest path for each (row, col)\n    \n    # Let's use a dictionary: key is (row, col), value is a list of (path, length) tuples, sorted by path lexicographically\n    # But we can"
+  },
+  {
+    "task_id": "HumanEval/130",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmp33o43fhe/solution.py\", line 37, in <module>\n    check(tri)\n  File \"/tmp/tmp33o43fhe/solution.py\", line 23, in check\n    assert candidate(3) == [1, 3, 2.0, 8.0]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+    "req_token": 167,
+    "answer": "```python\ndef tri(n):\n    if n == 0:\n        return []\n    elif n == 1:\n        return [1]\n    elif n == 2:\n        return [1, 2]\n    elif n == 3:\n        return [1, 2, 8]\n    else:\n        result = [1, 2, 8]\n        for i in range(3, n):\n            if i % 2 == 0:\n                result.append(result[i-1] + result[i-2] + result[i-3])\n            else:\n                result.append(result[i-1] + result[i-2] * result[i-3])\n        return result\n```"
+  },
+  {
+    "task_id": "HumanEval/131",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef digits(n):\n    \"\"\"Given a positive integer n, return the product of the odd digits.\n    Return 0 if all digits are even.\n    For example:\n    digits(1) == 1\n    digits(4) == 0\n    digits(295) == 15\n    \"\"\"\n    product = 1\n    has_odd = False\n    \n    while n > 0:\n        digit = n % 10\n        if digit % 2 == 1:  # odd digit\n            product *= digit\n            has_odd = True\n        n //= 10\n    \n    return product if has_odd else 0\n```"
+  },
+  {
+    "task_id": "HumanEval/132",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmpxjvvrdap/solution.py\", line 34, in <module>\n    check(is_nested)\n  File \"/tmp/tmpxjvvrdap/solution.py\", line 15, in check\n    assert candidate('[[]]') == True, \"This prints if this assert fails 1 (good for debugging!)\"\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: This prints if this assert fails 1 (good for debugging!)\n",
+    "req_token": 167,
+    "answer": "```python\ndef is_nested(string):\n    count = 0\n    for char in string:\n        if char == '[':\n            count += 1\n        elif char == ']':\n            count -= 1\n            if count < 0:\n                return False\n    return count > 1\n```"
+  },
+  {
+    "task_id": "HumanEval/133",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmptwwkvwzi/solution.py\", line 30, in <module>\n    check(sum_squares)\n          ^^^^^^^^^^^\nNameError: name 'sum_squares' is not defined. Did you mean: 'sum_squared'?\n",
+    "req_token": 167,
+    "answer": "```python\ndef sum_squared(lst):\n    total = 0\n    for num in lst:\n        rounded_num = int(num) if num >= 0 else int(num) - 1\n        total += rounded_num ** 2\n    return total\n```\n\nWait, I need to re-read the problem. The docstring says \"round each element in the list to the upper int(Ceiling) first\". Let me correct this.\n\n```python\nimport math\n\ndef sum_squared(lst):\n    total = 0\n    for num in lst:\n        rounded_num = math.ceil(num)\n        total += rounded_num ** 2\n    return total\n```"
+  },
+  {
+    "task_id": "HumanEval/134",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmp4wxc27am/solution.py\", line 26, in <module>\n    check(check_if_last_char_is_a_letter)\n  File \"/tmp/tmp4wxc27am/solution.py\", line 10, in check\n    assert candidate(\"apple\") == False\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+    "req_token": 167,
+    "answer": "```python\ndef check_if_last_char_is_a_letter(txt):\n    if not txt:\n        return False\n    last_char = txt[-1]\n    return last_char.isalpha()\n```"
+  },
+  {
+    "task_id": "HumanEval/135",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef can_arrange(arr):\n    for i in range(len(arr) - 1, 0, -1):\n        if arr[i] <= arr[i - 1]:\n            return i\n    return -1\n```"
+  },
+  {
+    "task_id": "HumanEval/136",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef largest_smallest_integers(lst):\n    largest_negative = None\n    smallest_positive = None\n    \n    for num in lst:\n        if num < 0:\n            if largest_negative is None or num > largest_negative:\n                largest_negative = num\n        elif num > 0:\n            if smallest_positive is None or num < smallest_positive:\n                smallest_positive = num\n    \n    return (largest_negative, smallest_positive)\n```"
+  },
+  {
+    "task_id": "HumanEval/137",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmpc94bvf5z/solution.py\", line 44, in <module>\n    check(compare_one)\n  File \"/tmp/tmpc94bvf5z/solution.py\", line 34, in check\n    assert candidate(1, \"2,3\") == \"2,3\"\n           ^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmpc94bvf5z/solution.py\", line 18, in compare_one\n    return a if a > b else b\n                ^^^^^\nTypeError: '>' not supported between instances of 'int' and 'str'\n",
+    "req_token": 167,
+    "answer": "```python\ndef compare_one(a, b):\n    if isinstance(a, str) and a.startswith('.'):\n        a = float('0' + a)\n    if isinstance(b, str) and b.startswith('.'):\n        b = float('0' + b)\n    if isinstance(a, str):\n        try:\n            a = float(a)\n        except:\n            pass\n    if isinstance(b, str):\n        try:\n            b = float(b)\n        except:\n            pass\n    if type(a) != type(b):\n        if type(a) == int:\n            return a if a > b else b\n        else:\n            return b if b > a else a\n    else:\n        if a > b:\n            return a\n        else:\n            return b\n```"
+  },
+  {
+    "task_id": "HumanEval/138",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef is_equal_to_sum_even(n):\n    # Since we need 4 positive even numbers, the minimum sum is 2+2+2+2 = 8\n    # Also, the sum of 4 even numbers is always even\n    return n >= 8 and n % 2 == 0\n```"
+  },
+  {
+    "task_id": "HumanEval/139",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmpotb6_vbo/solution.py\", line 19, in <module>\n    check(special_factorial)\n  File \"/tmp/tmpotb6_vbo/solution.py\", line 10, in check\n    assert candidate(4) == 288, \"Test 4\"\n           ^^^^^^^^^^^^^^^^^^^\nAssertionError: Test 4\n",
+    "req_token": 167,
+    "answer": "```python\ndef special_factorial(n):\n    result = 1\n    for i in range(1, n + 1):\n        result *= i\n    return result\n```"
+  },
+  {
+    "task_id": "HumanEval/140",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmp7uls5tq8/solution.py\", line 75, in <module>\n    check(fix_spaces)\n  File \"/tmp/tmp7uls5tq8/solution.py\", line 70, in check\n    assert candidate(\"Exa   mple\") == \"Exa-mple\", \"This prints if this assert fails 4 (good for debugging!)\"\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: This prints if this assert fails 4 (good for debugging!)\n",
+    "req_token": 167,
+    "answer": "```python\ndef fix_spaces(text):\n    # Replace all spaces with underscores\n    text = text.replace(' ', '_')\n    # If the string has more than 2 consecutive spaces, replace them with a single dash\n    # We need to handle multiple consecutive spaces\n    # First, replace all consecutive spaces with a temporary marker\n    # Then replace the temporary marker with a dash if it's more than 2 spaces\n    # But we need to be careful: we want to replace only if there are more than 2 consecutive spaces\n    # We can use a different approach: split by spaces, then join with underscores, but only if there are more than 2 consecutive spaces\n    # Actually, let's do it step by step:\n    # 1. Replace all spaces with a temporary marker (like 'SPACE')\n    # 2. Split by the temporary marker\n    # 3. Join the parts with underscores, but if any part has more than 2 spaces, replace those spaces with dashes\n    # Wait, that's not right. We need to replace all spaces with underscores, but if there are more than 2 consecutive spaces, replace those consecutive spaces with a dash.\n    # So we need to find sequences of 3 or more spaces and replace them with a dash.\n    # We can use a regex or a loop.\n    # Let's use a loop approach:\n    # Convert the string to a list of characters\n    # Iterate through the list and replace consecutive spaces\n    # But we need to handle the case where there are multiple spaces in a row\n    # We can use a simple approach: split the string by spaces, then join with underscores, but only if there are more than 2 consecutive spaces, replace those with a dash.\n    # Actually, let's do it this way:\n    # 1. Replace all spaces with a temporary marker\n    # 2. Split by the temporary marker\n    # 3. For each part, if it's empty (which means there were consecutive spaces), then we need to check the length of the consecutive spaces\n    # 4. But we need to know how many consecutive spaces there were\n    # 5. We can use a different approach: use a regex to find 3 or more consecutive spaces and replace them with a dash\n    # Let's use regex:\n    import re\n    # First, replace all spaces with underscores\n    text = text.replace(' ', '_')\n    # Then, find all sequences of 3 or more consecutive spaces and replace them with a dash\n    # But we already replaced spaces with underscores, so we need to do it differently\n    # We need to do it in two steps:\n    # 1. Replace all spaces with underscores\n    # 2. Then, replace sequences of 3 or more consecutive underscores with a dash\n    # But wait, that's not what we want. We want to replace all spaces with underscores, but if there are 3 or more consecutive spaces, replace those with a dash.\n    # So we need to do it in one pass:\n    # We can use a loop to go through the string and keep track of consecutive spaces\n    # Let's do it with a loop:\n    result = []\n    i = 0\n    while i < len(text):\n        if text[i] == ' ':\n            count = 0\n            j = i\n            while j < len(text) and text[j] == ' ':\n                count += 1\n                j += 1\n            if count > 2:\n                result.append('-')\n            else:\n                # Replace each space with underscore\n                for k in range(count):\n                    result.append('_')\n            i = j\n        else:\n            result.append(text[i])\n            i += 1\n    return ''.join(result)\n```\n\nWait, I think I'm overcomplicating this. Let me re-read the problem.\n\nThe docstring says:\n- Replace all spaces with underscores.\n- If a string has more than 2 consecutive spaces, then replace those consecutive spaces with a dash.\n\nSo, for example:\n- \"Example 1\" -> \"Example_1\" (one space, so replace with underscore)\n- \"Example 2\" -> \"Example_2\" (one space, so replace with underscore)\n- \"Example 3\" -> \"Example_3\" (one space, so replace with underscore)\n\nBut the examples given in the docstring are:\n- fix_spaces(\"Example 1\") == \"Example_1\"\n- fix_spaces(\"Example 2\") == \"Example_2\"\n- fix_spaces(\"Example 3\") == \"Example_3\"\n\nWait, that doesn't make sense. The docstring says \"if a string has more than 2 consecutive spaces\", but the examples don't have more than 2 consecutive spaces. So maybe the examples are just to show the function works for single spaces.\n\nBut the function"
+  },
+  {
+    "task_id": "HumanEval/141",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef file_name_check(file_name):\n    # Check if the file name starts with a Latin letter\n    if not file_name or not file_name[0].isalpha() or not file_name[0].isascii():\n        return 'No'\n    \n    # Split by dots to get parts\n    parts = file_name.split('.')\n    \n    # Check if there is exactly one dot\n    if len(parts) != 2:\n        return 'No'\n    \n    # Check if the substring before the dot is not empty and starts with a letter\n    if not parts[0] or not parts[0][0].isalpha() or not parts[0][0].isascii():\n        return 'No'\n    \n    # Check if the substring after the dot is one of the allowed extensions\n    if parts[1] not in ['txt', 'exe', 'dll']:\n        return 'No'\n    \n    # Check if the substring before the dot contains exactly one dot\n    # This condition is already handled by the split above, but we need to check for three digits\n    # Check if there are three digits in the substring before the dot\n    if len(parts[0]) >= 3 and parts[0][:3].isdigit():\n        return 'No'\n    \n    # Check if the substring before the dot contains more than three digits\n    digit_count = 0\n    for char in parts[0]:\n        if char.isdigit():\n            digit_count += 1\n    if digit_count > 3:\n        return 'No'\n    \n    return 'Yes'\n```"
+  },
+  {
+    "task_id": "HumanEval/142",
+    "passed": false,
+    "error": "No code extracted",
+    "req_token": 167,
+    "answer": "```python\ndef sum_squares(lst):\n    total = 0\n    for i in range(len(lst)):\n        if i % 3 == 0 and i % 4 == 0 and i % 3 != 0:  # This condition is logically flawed\n            # Actually, we need to check if index is multiple of 3 AND multiple of 4 AND not multiple of 3\n            # But \"not multiple of 3\" contradicts \"multiple of 3\"\n            # Let's re-read: \"if its index is a multiple of 3 and will cube the integer entry if its index is a multiple of 4 and not a multiple of 3\"\n            # This seems to be a typo. It should be: if index is multiple of 3, square; if index is multiple of 4 and not multiple of 3, cube.\n            # But the docstring says: \"square the integer entry if its index is a multiple of 3 and will cube the integer entry if its index is a multiple of 4 and not a multiple of 3\"\n            # So we need to handle two cases:\n            # 1. index % 3 == 0: square the entry\n            # 2. index % 4 == 0 and index % 3 != 0: cube the entry\n            # But note: if index is multiple of both 3 and 4, it should be squared (since multiple of 3 takes precedence? or cube? The docstring doesn't specify)\n            # Looking at the examples:\n            # For lst = [1,2,3]: output 6 -> index 0: 1^2=1, index 1: 2 (unchanged), index 2: 3 (unchanged) -> 1+2+3=6\n            # For lst = [1]: output 8 -> index 0: 1^2=1, but output is 8? That doesn't match.\n            # Wait, let me re-read: \"For lst = [1]: the output should be 8\"\n            # That doesn't make sense if we square index 0.\n            # Let me check the examples again:\n            # For lst = [1,2,3]: output 6 -> 1^2 + 2 + 3 = 1+2+3=6\n            # For lst = [1,5,2,1,5]: output 126 -> 1^2 + 5 + 2^3 + 1 + 5 = 1 + 5 + 8 + 1 + 5 = 20, not 126.\n            # That doesn't match.\n            # Let me re-read the problem: \"For list = [1,5,2,1,5] the output should be 126\"\n            # Let's try: index 0: 1^2=1, index 1: 5 (unchanged), index 2: 2^3=8, index 3: 1 (unchanged), index 4: 5 (unchanged) -> 1+5+8+1+5=20\n            # Not 126.\n            # Maybe the problem is: if index is multiple of 3, square; if index is multiple of 4 and not multiple of 3, cube; otherwise, leave unchanged.\n            # But 20 != 126.\n            # Let me check the example again: \"For list = [1,5,2,1,5] the output should be 126\"\n            # 126 = 1^2 + 5^2 + 2^3 + 1^2 + 5^2? That would be 1+25+8+1+25=60.\n            # 126 = 1^2 + 5^3 + 2^3 + 1^2 + 5^3? 1+125+8+1+125=260.\n            # 126 = 1^2 + 5^2 + 2^3 + 1^2 + 5^2? 1+25+8+1+25=60.\n            # 126 = 1^2 + 5^2 + 2^3 + 1^2 + 5^2? 1+25+8+1+25=60.\n            # 126 = 1^2 + 5^2 + 2^3 + 1^2 + 5^2? 1+25+8+1+25=60.\n            # 126 = 1^"
+  },
+  {
+    "task_id": "HumanEval/143",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef words_in_sentence(sentence):\n    result = []\n    for word in sentence.split():\n        is_prime = True\n        if len(word) < 2:\n            is_prime = False\n        else:\n            for i in range(2, int(len(word) ** 0.5) + 1):\n                if len(word) % i == 0:\n                    is_prime = False\n                    break\n        if is_prime:\n            result.append(word)\n    return \" \".join(result)\n```"
+  },
+  {
+    "task_id": "HumanEval/144",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmpyid7ceyi/solution.py\", line 36, in <module>\n    check(simplify)\n          ^^^^^^^^\nNameError: name 'simplify' is not defined. Did you mean: 'simplif'?\n",
+    "req_token": 167,
+    "answer": "```python\ndef simplif(x, n):\n    # Parse the fractions\n    x_num, x_den = map(int, x.split('/'))\n    n_num, n_den = map(int, n.split('/'))\n    \n    # Calculate the product\n    product_num = x_num * n_num\n    product_den = x_den * n_den\n    \n    # Check if the product is a whole number\n    # This happens when the denominator divides the numerator evenly\n    return product_num % product_den == 0\n```"
+  },
+  {
+    "task_id": "HumanEval/145",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmpj9idlw_7/solution.py\", line 22, in <module>\n    check(order_by_points)\n  File \"/tmp/tmpj9idlw_7/solution.py\", line 10, in check\n    assert candidate([1, 11, -1, -11, -12]) == [-1, -11, 1, -12, 11]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+    "req_token": 167,
+    "answer": "```python\ndef order_by_points(nums):\n    def digit_sum(n):\n        return sum(int(digit) for digit in str(abs(n)))\n    \n    return sorted(nums, key=lambda x: (digit_sum(x), nums.index(x)))\n```"
+  },
+  {
+    "task_id": "HumanEval/146",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef specialFilter(nums):\n    count = 0\n    for num in nums:\n        if num > 10:\n            first_digit = num // (10 ** (len(str(num)) - 1))\n            last_digit = num % 10\n            if first_digit % 2 == 1 and last_digit % 2 == 1:\n                count += 1\n    return count\n```"
+  },
+  {
+    "task_id": "HumanEval/147",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmpujcku_lb/solution.py\", line 23, in <module>\n    check(get_max_triples)\n  File \"/tmp/tmpujcku_lb/solution.py\", line 17, in check\n    assert candidate(5) == 1\n           ^^^^^^^^^^^^^^^^^\nAssertionError\n",
+    "req_token": 167,
+    "answer": "```python\ndef get_max_triples(n):\n    a = []\n    for i in range(1, n + 1):\n        a.append(i * i)\n    \n    count = 0\n    for i in range(n):\n        for j in range(i + 1, n):\n            for k in range(j + 1, n):\n                if (a[i] + a[j] - a[k]) % 3 == 0:\n                    count += 1\n    \n    return count\n```"
+  },
+  {
+    "task_id": "HumanEval/148",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmp5nfmtktc/solution.py\", line 29, in <module>\n    check(bf)\n          ^^\nNameError: name 'bf' is not defined\n",
+    "req_token": 167,
+    "answer": "```python\ndef planet2(planet1, planet2):\n    planets = [\"Mercury\", \"Venus\", \"Earth\", \"Mars\", \"Jupiter\", \"Saturn\", \"Uranus\", \"Neptune\"]\n    if planet1 not in planets or planet2 not in planets:\n        return ()\n    if planet1 == planet2:\n        return ()\n    idx1 = planets.index(planet1)\n    idx2 = planets.index(planet2)\n    start = min(idx1, idx2) + 1\n    end = max(idx1, idx2)\n    return tuple(planets[start:end])\n```"
+  },
+  {
+    "task_id": "HumanEval/149",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmp2cx6fx2r/solution.py\", line 25, in <module>\n    check(sorted_list_sum)\n          ^^^^^^^^^^^^^^^\nNameError: name 'sorted_list_sum' is not defined. Did you mean: 'sorted_list'?\n",
+    "req_token": 167,
+    "answer": "```python\ndef sorted_list(lst):\n    # Filter strings with odd lengths\n    odd_length_strings = [s for s in lst if len(s) % 2 == 1]\n    \n    # Sort by length first, then alphabetically\n    odd_length_strings.sort(key=lambda x: (len(x), x))\n    \n    return odd_length_strings\n```"
+  },
+  {
+    "task_id": "HumanEval/150",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef x_or_y(n, x, y):\n    def is_prime(num):\n        if num < 2:\n            return False\n        for i in range(2, int(num**0.5) + 1):\n            if num % i == 0:\n                return False\n        return True\n    \n    if is_prime(n):\n        return x\n    else:\n        return y\n```"
+  },
+  {
+    "task_id": "HumanEval/151",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmpg0pdat62/solution.py\", line 26, in <module>\n    check(double_the_difference)\n  File \"/tmp/tmpg0pdat62/solution.py\", line 12, in check\n    assert candidate([5, 4]) == 25 , \"This prints if this assert fails 2 (good for debugging!)\"\n           ^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: This prints if this assert fails 2 (good for debugging!)\n",
+    "req_token": 167,
+    "answer": "```python\ndef double_the_difference(lst):\n    total = 0\n    for num in lst:\n        if num > 0 and num % 2 == 0:\n            total += num * num\n    return total\n```"
+  },
+  {
+    "task_id": "HumanEval/152",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef compare(scores, guesses):\n    result = []\n    for i in range(len(scores)):\n        diff = abs(scores[i] - guesses[i])\n        result.append(diff)\n    return result\n```"
+  },
+  {
+    "task_id": "HumanEval/153",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmp5c3o2n8v/solution.py\", line 35, in <module>\n    check(Strongest_Extension)\n          ^^^^^^^^^^^^^^^^^^^\nNameError: name 'Strongest_Extension' is not defined. Did you mean: 'StrongestExtension'?\n",
+    "req_token": 167,
+    "answer": "```python\ndef StrongestExtension(class_name, extensions):\n    max_strength = -1\n    strongest_ext = \"\"\n    \n    for ext in extensions:\n        # Calculate strength: number of uppercase letters minus number of lowercase letters\n        uppercase_count = sum(1 for c in ext if c.isupper())\n        lowercase_count = sum(1 for c in ext if c.islower())\n        strength = uppercase_count - lowercase_count\n        \n        # Update if this is the strongest so far\n        if strength > max_strength:\n            max_strength = strength\n            strongest_ext = ext\n    \n    return f\"{class_name}.{strongest_ext}\"\n```"
+  },
+  {
+    "task_id": "HumanEval/154",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmp0bydg4fd/solution.py\", line 28, in <module>\n    check(cycpattern_check)\n          ^^^^^^^^^^^^^^^^\nNameError: name 'cycpattern_check' is not defined. Did you mean: 'cyrpattern_check'?\n",
+    "req_token": 167,
+    "answer": "```python\ndef cyrpattern_check(a, b):\n    if len(a) != len(b):\n        return False\n    for i in range(len(a)):\n        pattern = \"\"\n        for j in range(len(a)):\n            pattern += a[(i + j) % len(a)]\n        if pattern == b:\n            return True\n    return False\n```"
+  },
+  {
+    "task_id": "HumanEval/155",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef even_odd_count(num):\n    even_count = 0\n    odd_count = 0\n    for digit in str(abs(num)):\n        if int(digit) % 2 == 0:\n            even_count += 1\n        else:\n            odd_count += 1\n    return (even_count, odd_count)\n```"
+  },
+  {
+    "task_id": "HumanEval/156",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef int_to_mini_roman(number):\n    roman_numerals = [\n        (1000, 'm'), (900, 'cm'), (500, 'd'), (400, 'cd'),\n        (100, 'c'), (90, 'xc'), (50, 'l'), (40, 'xl'),\n        (10, 'x'), (9, 'ix'), (5, 'v'), (4, 'iv'), (1, 'i')\n    ]\n    result = \"\"\n    for value, numeral in roman_numerals:\n        count = number // value\n        result += numeral * count\n        number -= value * count\n    return result\n```"
+  },
+  {
+    "task_id": "HumanEval/157",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef right_angle_triangle(a, b, c):\n    # Sort the sides to make sure the longest side is c\n    sides = sorted([a, b, c])\n    # Check if the Pythagorean theorem holds: a^2 + b^2 = c^2\n    return sides[0]**2 + sides[1]**2 == sides[2]**2\n```"
+  },
+  {
+    "task_id": "HumanEval/158",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef find_max(words):\n    max_unique = 0\n    max_word = \"\"\n    for word in words:\n        unique_count = len(set(word))\n        if unique_count > max_unique or (unique_count == max_unique and word < max_word):\n            max_unique = unique_count\n            max_word = word\n    return max_word\n```"
+  },
+  {
+    "task_id": "HumanEval/159",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmph2vtam9x/solution.py\", line 23, in <module>\n    check(eat)\n  File \"/tmp/tmph2vtam9x/solution.py\", line 11, in check\n    assert candidate(5, 6, 10) == [11, 4], \"Error\"\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Error\n",
+    "req_token": 167,
+    "answer": "```python\ndef eat(number, need, remaining):\n    if number + need > remaining:\n        return [number, remaining]\n    else:\n        return [number + need, remaining - need]\n```"
+  },
+  {
+    "task_id": "HumanEval/160",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmpiak8vesc/solution.py\", line 28, in <module>\n    check(do_algebra)\n  File \"/tmp/tmpiak8vesc/solution.py\", line 20, in check\n    assert candidate(['+', '*', '-'], [2, 3, 4, 5]) == 9\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+    "req_token": 167,
+    "answer": "```python\ndef do_algebra(operator, operand):\n    result = operand[0]\n    for i in range(len(operator)):\n        if operator[i] == '+':\n            result += operand[i + 1]\n        elif operator[i] == '-':\n            result -= operand[i + 1]\n        elif operator[i] == '*':\n            result *= operand[i + 1]\n        elif operator[i] == '//':\n            result //= operand[i + 1]\n        elif operator[i] == '**':\n            result **= operand[i + 1]\n    return result\n```"
+  },
+  {
+    "task_id": "HumanEval/161",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmpdeb30ifg/solution.py\", line 30, in <module>\n    check(solve)\n  File \"/tmp/tmpdeb30ifg/solution.py\", line 16, in check\n    assert candidate(\"AsDf\") == \"aSdF\"\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+    "req_token": 167,
+    "answer": "```python\ndef solve(s):\n    result = \"\"\n    for char in s:\n        if char.isalpha():\n            if char.islower():\n                result += char.upper()\n            else:\n                result += char.lower()\n        else:\n            result += char\n    return result[::-1]\n```"
+  },
+  {
+    "task_id": "HumanEval/162",
+    "passed": true,
+    "error": null,
+    "req_token": 167,
+    "answer": "```python\ndef string_to_md5(text):\n    if not text:\n        return None\n    import hashlib\n    return hashlib.md5(text.encode()).hexdigest()\n```"
+  },
+  {
+    "task_id": "HumanEval/163",
+    "passed": false,
+    "error": "Traceback (most recent call last):\n  File \"/tmp/tmpfyn46x0e/solution.py\", line 21, in <module>\n    check(generate_integers)\n  File \"/tmp/tmpfyn46x0e/solution.py\", line 11, in check\n    assert candidate(2, 10) == [2, 4, 6, 8], \"Test 1\"\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Test 1\n",
+    "req_token": 167,
+    "answer": "```python\ndef generate_integers(a, b):\n    result = []\n    for i in range(a, b + 1):\n        if i % 2 == 0:\n            result.append(i)\n    return result\n```"
+  }
+]
