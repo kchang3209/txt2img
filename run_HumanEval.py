@@ -132,15 +132,17 @@ async def main():
     parser.add_argument("--model_name", type=str, default='', help="model name")
     parser.add_argument("--mode", type=str, default='', help="text_only or vlm")
     parser.add_argument("--num_visual_tokens", type=int, default=128, help="visual token number")
-    parser.add_argument("--max_new_tokens", type=int, default=1024, help="answer length")
+    # parser.add_argument("--max_new_tokens", type=int, default=1024, help="answer length")
     parser.add_argument("--DATASET_PATH", type=str, default='', help="HumanEval data path")
     parser.add_argument("--IMAGE_PATH", type=str, default='', help="HumanEval image path")
     parser.add_argument("--RESULTS_DIR", type=str, default='', help="result path for text-only model")
     parser.add_argument("--HF_TOKEN", type=str, default=None, help="HuggingFace Token for speed weight download")
-    parser.add_argument("--temperature", type=float, default=0.2, help="Temperature for sampling")
+    parser.add_argument("--temperature", type=float, default=0.7, help="Temperature for sampling")
     parser.add_argument("--model_path", type=str, default='', help="local model weights")
     parser.add_argument("--max_model_len", type=int, default=4096, help="max number of tokens of prompt + generated response")
     parser.add_argument("--GPU_util", type=float, default=0.9, help="GPU utilization ratio")
+    parser.add_argument("--top_p", type=float, default=0.8, help="Top p for sampling")
+    parser.add_argument("--max_tokens", type=int, default=1024, help="Max tokens for sampling")
 
     args = parser.parse_args()
     
@@ -153,15 +155,15 @@ async def main():
         sampling_params = SamplingParams(temperature=args.temperature,
                                     top_p=args.top_p,
                                     max_tokens=args.max_tokens)
-        if args.model_path is None:
-            model_location = args.model_name
-        else:
-            model_location = args.model_path
+        # if args.model_path is None:
+        #     model_location = args.model_name
+        # else:
+        #     model_location = args.model_path
             
         os.environ['VLLM_WORKER_MULTIPROC_METHOD'] = 'spawn'
             
         if args.mode == "text_only":
-            model = LLM(model=model_location,
+            model = LLM(model=args.model_name,
                       tokenizer=args.model_name,
                       max_model_len=args.max_model_len,
                       gpu_memory_utilization=args.GPU_util)
@@ -200,13 +202,12 @@ async def main():
         test    = item["test"]
         entry_point = item["entry_point"]
         
-        
-        
         print(f"[TEXT] Running {task_id}")
 
         try:
             if args.mode == "text_only":
-                prompt  = "Complete the function(s) as described in the docstring. Retain the module import and include only the code in your answer.\n\n" + item["prompt"]
+                prompt  = "You are given a task to generate code for one or more function. Read the following function signature and docstring, and fully implement the function described. Include only the package import and the function in your answer. Always wrap your answer with ```python and ```. \n\n" + item["prompt"]
+                # prompt = "Read the following function signature(s) and docstring(s), and fully implement the function(s) described. Your response should only contain the code for the function(s).\n\n" + item["prompt"]
                 output = await call_text_model(prompt, model, sampling_params)
                 code = extract_code(output)
                 # req_token = num_req_tok = len(tokenizer(prompt)["input_ids"])
