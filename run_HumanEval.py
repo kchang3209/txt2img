@@ -7,32 +7,37 @@ import tempfile
 import os
 import asyncio
 from typing import Dict, Any, List
+from vllm import LLM, SamplingParams
+from qwen_vl_utils import process_vision_info
+
 
 set_seed(247)
 
-async def call_text_model(prompt: str, model, tokenizer, max_new_tokens):
+async def call_text_model(prompt: str, model, sampling_params):
+    outputs = model.generate(prompt, sampling_params)
+    response = outputs[0].outputs[0].text
+    return response
+    # messages = [{"role": "user", "content": prompt}]
     
-    messages = [{"role": "user", "content": prompt}]
+    # text = tokenizer.apply_chat_template(
+    #     messages,
+    #     tokenize=False,
+    #     add_generation_prompt=True
+    # )
     
-    text = tokenizer.apply_chat_template(
-        messages,
-        tokenize=False,
-        add_generation_prompt=True
-    )
-    
-    model_inputs = tokenizer([text], return_tensors="pt").to(model.device)
+    # model_inputs = tokenizer([text], return_tensors="pt").to(model.device)
 
-    generated_ids = model.generate(
-        **model_inputs,
-        max_new_tokens=max_new_tokens,
-        do_sample=False
-    )
+    # generated_ids = model.generate(
+    #     **model_inputs,
+    #     max_new_tokens=max_new_tokens,
+    #     do_sample=False
+    # )
 
-    num_text_tokens = model_inputs["input_ids"].shape[-1]
-    output_ids = generated_ids[0][len(model_inputs.input_ids[0]):].tolist()
-    output = tokenizer.decode(output_ids, skip_special_tokens=True)
+    # num_text_tokens = model_inputs["input_ids"].shape[-1]
+    # output_ids = generated_ids[0][len(model_inputs.input_ids[0]):].tolist()
+    # output = tokenizer.decode(output_ids, skip_special_tokens=True)
 
-    return output, num_text_tokens
+    # return output #, num_text_tokens
 
 
 
@@ -132,7 +137,11 @@ async def main():
     parser.add_argument("--IMAGE_PATH", type=str, default='', help="HumanEval image path")
     parser.add_argument("--RESULTS_DIR", type=str, default='', help="result path for text-only model")
     parser.add_argument("--HF_TOKEN", type=str, default=None, help="HuggingFace Token for speed weight download")
-    
+    parser.add_argument("--temperature", type=float, default=0.2, help="Temperature for sampling")
+    parser.add_argument("--model_path", type=str, default='', help="local model weights")
+    parser.add_argument("--max_model_len", type=int, default=4096, help="max number of tokens of prompt + generated response")
+    parser.add_argument("--GPU_util", type=float, default=0.9, help="GPU utilization ratio")
+
     args = parser.parse_args()
     
     os.makedirs(args.RESULTS_DIR, exist_ok=True)
@@ -141,15 +150,30 @@ async def main():
     
     ## Model Init
     try:
+        sampling_params = SamplingParams(temperature=args.temperature,
+                                    top_p=args.top_p,
+                                    max_tokens=args.max_tokens)
+        if args.model_path is None:
+            model_location = args.model_name
+        else:
+            model_location = args.model_path
+            
+        os.environ['VLLM_WORKER_MULTIPROC_METHOD'] = 'spawn'
+            
         if args.mode == "text_only":
-            tokenizer = AutoTokenizer.from_pretrained(args.model_name, token=HF_TOKEN)
+            model = LLM(model=model_location,
+                      tokenizer=args.model_name,
+                      max_model_len=args.max_model_len,
+                      gpu_memory_utilization=args.GPU_util)
+            tokenizer = AutoTokenizer.from_pretrained(model_location)
+            # tokenizer = AutoTokenizer.from_pretrained(args.model_name, token=HF_TOKEN)
 
-            model = AutoModelForCausalLM.from_pretrained(
-                args.model_name,
-                torch_dtype="auto",
-                device_map="auto",
-                token=HF_TOKEN
-            )
+            # model = AutoModelForCausalLM.from_pretrained(
+            #     args.model_name,
+            #     torch_dtype="auto",
+            #     device_map="auto",
+            #     token=HF_TOKEN
+            # )
         elif args.mode == "vlm":
             model = Qwen3VLForConditionalGeneration.from_pretrained(
                 args.model_name,
@@ -158,8 +182,8 @@ async def main():
                 token=HF_TOKEN
             )
             # num_visual_tokens = 512
-            min_pixels = args.num_visual_tokens*28*28
-            max_pixels = args.num_visual_tokens*28*28
+            min_pixels = args.num_visual_tokens*32*32
+            max_pixels = args.num_visual_tokens*32*32
 
             processor_vlm = AutoProcessor.from_pretrained(args.model_name, min_pixels=min_pixels, max_pixels=max_pixels, token=HF_TOKEN)
     except Exception as e:
@@ -183,9 +207,10 @@ async def main():
         try:
             if args.mode == "text_only":
                 prompt  = "Complete the function(s) as described in the docstring. Retain the module import and include only the code in your answer.\n\n" + item["prompt"]
-                output, num_text_tokens = await call_text_model(prompt, model, tokenizer, args.max_new_tokens)
+                output = await call_text_model(prompt, model, sampling_params)
                 code = extract_code(output)
-                req_token = num_text_tokens
+                # req_token = num_req_tok = len(tokenizer(prompt)["input_ids"])
+                req_token = len(tokenizer(prompt)["input_ids"])
             elif args.mode == "vlm":
                 image   = os.path.join(args.IMAGE_PATH, item["prompt_image"])
                 output = await call_vlm_model(image, model, processor_vlm, args.max_new_tokens)
