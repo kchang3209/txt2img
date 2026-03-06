@@ -206,8 +206,8 @@ async def main():
 
         try:
             if args.mode == "text_only":
-                prompt  = "You are given a task to generate code for one or more function. Read the following function signature and docstring, and fully implement the function described. Include only the package import and the function in your answer. Always wrap your answer with ```python and ```. \n\n" + item["prompt"]
-                # prompt = "Read the following function signature(s) and docstring(s), and fully implement the function(s) described. Your response should only contain the code for the function(s).\n\n" + item["prompt"]
+                prompt  = "You are given a task to generate code for one or more function. Read the following function signature and docstring, and fully implement the function described. Include only the package import and the function in your answer. Make sure your answer is wrapped with ```python and ```. \n\n" + item["prompt"]
+                # prompt  = "You are given a task to generate code for one or more function. Read the following function signature and docstring, and fully implement the function described. Include only the package import and the function in your answer. Always wrap your answer with ```python and ```. \n\n" + item["prompt"]
                 output = await call_text_model(prompt, model, sampling_params)
                 code = extract_code(output)
                 # req_token = num_req_tok = len(tokenizer(prompt)["input_ids"])
