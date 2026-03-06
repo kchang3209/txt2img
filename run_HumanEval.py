@@ -41,7 +41,7 @@ async def call_text_model(prompt: str, model, sampling_params):
 
 
 
-async def call_vlm_model(image_path: str, model, processor_vlm, max_new_tokens) -> str:
+async def call_vlm_model(query, image_path: str, model, processor_vlm, max_new_tokens) -> str:
 
     messages = [
         {
@@ -51,7 +51,7 @@ async def call_vlm_model(image_path: str, model, processor_vlm, max_new_tokens) 
                     "type": "image",
                     "image": image_path,
                 },
-                {"type": "text", "text": "Complete the function(s) as described in the docstring. Retain the module import and include only the code in your answer.\n\n"},
+                {"type": "text", "text": query},
             ],
         }
     ]
@@ -85,7 +85,7 @@ async def call_vlm_model(image_path: str, model, processor_vlm, max_new_tokens) 
     return output
 
 
-def extract_code(model_output: str) -> str:
+def extract_code(model_output: str):
     CODE_REGEX = re.compile(r"```python\s+(.*?)\s+```", re.DOTALL)
     match = CODE_REGEX.search(model_output)
     if not match:
@@ -143,82 +143,86 @@ async def main():
     parser.add_argument("--GPU_util", type=float, default=0.9, help="GPU utilization ratio")
     parser.add_argument("--top_p", type=float, default=0.8, help="Top p for sampling")
     parser.add_argument("--max_tokens", type=int, default=1024, help="Max tokens for sampling")
-
     args = parser.parse_args()
     
     os.makedirs(args.RESULTS_DIR, exist_ok=True)
     
-    HF_TOKEN = args.HF_TOKEN
+    if args.model_path is None:
+        model_location = args.model_name
+        print(f'>>> mode_location not set, downloading {model_location} weights...')
+    else:
+        model_location = args.model_path
+        print(f'>>> mode_location is set to {model_location}, loading model weights...')
+        
+    os.environ['VLLM_WORKER_MULTIPROC_METHOD'] = 'spawn'
     
-    ## Model Init
-    try:
-        sampling_params = SamplingParams(temperature=args.temperature,
-                                    top_p=args.top_p,
-                                    max_tokens=args.max_tokens)
-        # if args.model_path is None:
-        #     model_location = args.model_name
-        # else:
-        #     model_location = args.model_path
-            
-        os.environ['VLLM_WORKER_MULTIPROC_METHOD'] = 'spawn'
-            
-        if args.mode == "text_only":
-            model = LLM(model=args.model_name,
-                      tokenizer=args.model_name,
-                      max_model_len=args.max_model_len,
-                      gpu_memory_utilization=args.GPU_util)
-            tokenizer = AutoTokenizer.from_pretrained(model_location)
-            # tokenizer = AutoTokenizer.from_pretrained(args.model_name, token=HF_TOKEN)
-
-            # model = AutoModelForCausalLM.from_pretrained(
-            #     args.model_name,
-            #     torch_dtype="auto",
-            #     device_map="auto",
-            #     token=HF_TOKEN
-            # )
-        elif args.mode == "vlm":
-            model = Qwen3VLForConditionalGeneration.from_pretrained(
-                args.model_name,
-                dtype="auto",
-                device_map="auto",
-                token=HF_TOKEN
-            )
-            # num_visual_tokens = 512
-            min_pixels = args.num_visual_tokens*32*32
-            max_pixels = args.num_visual_tokens*32*32
-
-            processor_vlm = AutoProcessor.from_pretrained(args.model_name, min_pixels=min_pixels, max_pixels=max_pixels, token=HF_TOKEN)
-    except Exception as e:
-        print(f"Error loading model: {e}")
+    sampling_params = SamplingParams(
+        temperature=args.temperature,
+        top_p=args.top_p,
+        max_tokens=args.max_tokens
+        )     
+    
+    # ========================
+    # Model Init
+    # ========================               
+    if args.mode == "text_only":
+        model = LLM(model=model_location,
+                    max_model_len=args.max_model_len,
+                    gpu_memory_utilization=args.GPU_util
+                    )
+        tokenizer = AutoTokenizer.from_pretrained(model_location)
+        
+        # tokenizer = AutoTokenizer.from_pretrained(args.model_name, token=HF_TOKEN)
+        # model = AutoModelForCausalLM.from_pretrained(
+        #     args.model_name,
+        #     torch_dtype="auto",
+        #     device_map="auto",
+        #     token=HF_TOKEN)
+    elif args.mode == "vlm":
+        model = Qwen3VLForConditionalGeneration.from_pretrained(
+            args.model_name,
+            dtype="auto",
+            device_map="auto"
+        )
+        # num_visual_tokens = 512
+        min_pixels = args.num_visual_tokens*32*32
+        max_pixels = args.num_visual_tokens*32*32
+        processor_vlm = AutoProcessor.from_pretrained(args.model_name, min_pixels=min_pixels, max_pixels=max_pixels)
+    else:
+        print('>>> Warnining! Set --mode to either text_only or vlm')
+        return
         
         
     with open(args.DATASET_PATH) as f:
         dataset = json.load(f)
         
     results = []
+    query = "You are given a task to generate code for one or more function. Read the following function signature and docstring, and fully implement the function described. Include only the package import and the function in your answer. Make sure your answer is wrapped with ```python and ```. \n\n"
     
     for item in dataset:
         task_id = item["task_id"]
         test    = item["test"]
         entry_point = item["entry_point"]
-        
+        req_token = 0
+        output = None
+        code = None
         print(f"[TEXT] Running {task_id}")
-
+        
         try:
             if args.mode == "text_only":
-                prompt  = "You are given a task to generate code for one or more function. Read the following function signature and docstring, and fully implement the function described. Include only the package import and the function in your answer. Make sure your answer is wrapped with ```python and ```. \n\n" + item["prompt"]
+                prompt  = query + item["prompt"]
                 # prompt  = "You are given a task to generate code for one or more function. Read the following function signature and docstring, and fully implement the function described. Include only the package import and the function in your answer. Always wrap your answer with ```python and ```. \n\n" + item["prompt"]
                 output = await call_text_model(prompt, model, sampling_params)
                 code = extract_code(output)
                 # req_token = num_req_tok = len(tokenizer(prompt)["input_ids"])
                 req_token = len(tokenizer(prompt)["input_ids"])
-            elif args.mode == "vlm":
+            else:
                 image   = os.path.join(args.IMAGE_PATH, item["prompt_image"])
-                output = await call_vlm_model(image, model, processor_vlm, args.max_new_tokens)
+                output = await call_vlm_model(query, image, model, processor_vlm, args.max_new_tokens)
                 code = extract_code(output)
                 req_token = args.num_visual_tokens
 
-            if not code:
+            if code is None:
                 print('No code extracted.')
                 results.append({"task_id": task_id, "passed": False, "error": "No code extracted", "req_token":req_token, "answer":output})
                 continue
