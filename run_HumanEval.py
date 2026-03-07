@@ -16,7 +16,8 @@ set_seed(247)
 async def call_text_model(prompt: str, model, sampling_params):
     outputs = model.generate(prompt, sampling_params)
     response = outputs[0].outputs[0].text
-    return response
+    req_token = len(outputs[0].prompt_token_ids)
+    return response, req_token
     # messages = [{"role": "user", "content": prompt}]
     
     # text = tokenizer.apply_chat_template(
@@ -195,7 +196,7 @@ async def main():
                     max_model_len=args.max_model_len,
                     gpu_memory_utilization=args.GPU_util
                     )
-        tokenizer = AutoTokenizer.from_pretrained(model_location)
+        # tokenizer = AutoTokenizer.from_pretrained(model_location)
         
         # tokenizer = AutoTokenizer.from_pretrained(args.model_name, token=HF_TOKEN)
         # model = AutoModelForCausalLM.from_pretrained(
@@ -250,16 +251,17 @@ async def main():
         print(f"[TEXT] Running {task_id}")
         
         # ========================
-        # Model Init
+        # Inference
         # ========================
         try:
             if args.mode == "text_only":
                 prompt  = query[0] + item["prompt"] + query[1]
                 # prompt  = "You are given a task to generate code for one or more function. Read the following function signature and docstring, and fully implement the function described. Include only the package import and the function in your answer. Always wrap your answer with ```python and ```. \n\n" + item["prompt"]
-                output = await call_text_model(prompt, model, sampling_params)
+                output, req_token = await call_text_model(prompt, model, sampling_params)
                 code = extract_code(output)
-                # req_token = num_req_tok = len(tokenizer(prompt)["input_ids"])
-                req_token = len(tokenizer(prompt)["input_ids"])
+                # req_token_tokenizer = len(tokenizer(prompt)["input_ids"])
+                # print('req_token number from tokenizer: ', req_token_tokenizer)
+                # print('req_token number from vllm: ', req_token)
             else:
                 image   = os.path.join(args.IMAGE_PATH, item["prompt_image"])
                 output = await call_vlm_model(query, image, model, processor, sampling_params)
