@@ -39,9 +39,30 @@ async def call_text_model(prompt: str, model, sampling_params):
 
     # return output #, num_text_tokens
 
+def prepare_inputs_for_vllm(messages, processor):
+    text = processor.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+    # qwen_vl_utils 0.0.14+ reqired
+    image_inputs, video_inputs, video_kwargs = process_vision_info(
+        messages,
+        image_patch_size=processor.image_processor.patch_size,
+        return_video_kwargs=True,
+        return_video_metadata=True
+    )
+    print(f"video_kwargs: {video_kwargs}")
 
+    mm_data = {}
+    if image_inputs is not None:
+        mm_data['image'] = image_inputs
+    if video_inputs is not None:
+        mm_data['video'] = video_inputs
 
-async def call_vlm_model(query, image_path: str, model, processor_vlm, max_new_tokens) -> str:
+    return {
+        'prompt': text,
+        'multi_modal_data': mm_data,
+        'mm_processor_kwargs': video_kwargs
+    }
+
+async def call_vlm_model(query, image_path: str, model, processor, sampling_params) -> str:
 
     messages = [
         {
@@ -51,38 +72,42 @@ async def call_vlm_model(query, image_path: str, model, processor_vlm, max_new_t
                     "type": "image",
                     "image": image_path,
                 },
-                {"type": "text", "text": query},
+                {"type": "text", "text": query[0]+query[1]},
             ],
         }
     ]
+    prompt = [prepare_inputs_for_vllm(message, processor) for message in [messages]]
+    outputs = model.generate(prompt, sampling_params)
+    response = outputs[0].outputs[0].text
+    return response
 
     # Preparation for inference
-    inputs = processor_vlm.apply_chat_template(
-        messages,
-        tokenize=True,
-        add_generation_prompt=True,
-        return_dict=True,
-        return_tensors="pt"
-    )
-    inputs = inputs.to(model.device)
+    # inputs = processor.apply_chat_template(
+    #     messages,
+    #     tokenize=True,
+    #     add_generation_prompt=True,
+    #     return_dict=True,
+    #     return_tensors="pt"
+    # )
+    # inputs = inputs.to(model.device)
 
-    # Inference: Generation of the output
-    generated_ids = model.generate(
-        **inputs,
-        max_new_tokens=max_new_tokens,
-        do_sample=False
-        )
+    # # Inference: Generation of the output
+    # generated_ids = model.generate(
+    #     **inputs,
+    #     max_new_tokens=max_new_tokens,
+    #     do_sample=False
+    #     )
 
-    generated_ids_trimmed = [
-        out_ids[len(in_ids) :] for in_ids, out_ids in zip(inputs.input_ids, generated_ids)
-    ]
+    # generated_ids_trimmed = [
+    #     out_ids[len(in_ids) :] for in_ids, out_ids in zip(inputs.input_ids, generated_ids)
+    # ]
 
-    output_text = processor_vlm.batch_decode(
-        generated_ids_trimmed, skip_special_tokens=True, clean_up_tokenization_spaces=False
-    )
-    output = output_text[0]
+    # output_text = processor_vlm.batch_decode(
+    #     generated_ids_trimmed, skip_special_tokens=True, clean_up_tokenization_spaces=False
+    # )
+    # output = output_text[0]
 
-    return output
+    # return output
 
 
 def extract_code(model_output: str):
@@ -131,12 +156,12 @@ async def main():
     
     parser.add_argument("--model_name", type=str, default='', help="model name")
     parser.add_argument("--mode", type=str, default='', help="text_only or vlm")
-    parser.add_argument("--num_visual_tokens", type=int, default=128, help="visual token number")
+    parser.add_argument("--num_visual_tokens", type=int, default=1024, help="visual token number")
     # parser.add_argument("--max_new_tokens", type=int, default=1024, help="answer length")
     parser.add_argument("--DATASET_PATH", type=str, default='', help="HumanEval data path")
     parser.add_argument("--IMAGE_PATH", type=str, default='', help="HumanEval image path")
     parser.add_argument("--RESULTS_DIR", type=str, default='', help="result path for text-only model")
-    parser.add_argument("--HF_TOKEN", type=str, default=None, help="HuggingFace Token for speed weight download")
+    # parser.add_argument("--HF_TOKEN", type=str, default=None, help="HuggingFace Token for speed weight download")
     parser.add_argument("--temperature", type=float, default=0.7, help="Temperature for sampling")
     parser.add_argument("--model_path", type=str, default='', help="local model weights")
     parser.add_argument("--max_model_len", type=int, default=4096, help="max number of tokens of prompt + generated response")
@@ -179,15 +204,29 @@ async def main():
         #     device_map="auto",
         #     token=HF_TOKEN)
     elif args.mode == "vlm":
-        model = Qwen3VLForConditionalGeneration.from_pretrained(
-            args.model_name,
-            dtype="auto",
-            device_map="auto"
-        )
-        # num_visual_tokens = 512
-        min_pixels = args.num_visual_tokens*32*32
-        max_pixels = args.num_visual_tokens*32*32
-        processor_vlm = AutoProcessor.from_pretrained(args.model_name, min_pixels=min_pixels, max_pixels=max_pixels)
+        model = LLM(
+                model=model_location,
+                # tensor_parallel_size=1,
+                # dtype="float16",
+                # trust_remote_code=True,
+                max_model_len=args.max_model_len,
+                gpu_memory_utilization=args.GPU_util,
+                mm_processor_kwargs={
+                    "min_pixels": args.num_visual_tokens*32*32,
+                    "max_pixels": args.num_visual_tokens*32*32,
+                },
+            )
+        processor = AutoProcessor.from_pretrained(model_location)  
+        
+        # model = Qwen3VLForConditionalGeneration.from_pretrained(
+        #     args.model_name,
+        #     dtype="auto",
+        #     device_map="auto"
+        # )
+        # # num_visual_tokens = 512
+        # min_pixels = args.num_visual_tokens*32*32
+        # max_pixels = args.num_visual_tokens*32*32
+        # processor_vlm = AutoProcessor.from_pretrained(args.model_name, min_pixels=min_pixels, max_pixels=max_pixels)
     else:
         print('>>> Warnining! Set --mode to either text_only or vlm')
         return
@@ -197,8 +236,10 @@ async def main():
         dataset = json.load(f)
         
     results = []
-    query = "You are given a task to generate code for one or more function. Read the following function signature and docstring, and fully implement the function described. Include only the package import and the function in your answer. Make sure your answer is wrapped with ```python and ```. \n\n"
-    
+    # query = "You are given a task to generate code for one or more function. Read the following function signature and docstring, and fully implement the function described. Include only the package import and the function in your answer. Make sure your answer is wrapped with ```python and ```. \n\n"
+    query = ['Read the following function signature and docstring, and fully implement the function described. \n\n',
+             'Provide the complete, working function, including all necessary imports. The entire code must be enclosed in a single fenced markdown code block, starting with "```python" and ending with "```".'
+            ]
     for item in dataset:
         task_id = item["task_id"]
         test    = item["test"]
@@ -208,9 +249,12 @@ async def main():
         code = None
         print(f"[TEXT] Running {task_id}")
         
+        # ========================
+        # Model Init
+        # ========================
         try:
             if args.mode == "text_only":
-                prompt  = query + item["prompt"]
+                prompt  = query[0] + item["prompt"] + query[1]
                 # prompt  = "You are given a task to generate code for one or more function. Read the following function signature and docstring, and fully implement the function described. Include only the package import and the function in your answer. Always wrap your answer with ```python and ```. \n\n" + item["prompt"]
                 output = await call_text_model(prompt, model, sampling_params)
                 code = extract_code(output)
@@ -218,7 +262,7 @@ async def main():
                 req_token = len(tokenizer(prompt)["input_ids"])
             else:
                 image   = os.path.join(args.IMAGE_PATH, item["prompt_image"])
-                output = await call_vlm_model(query, image, model, processor_vlm, args.max_new_tokens)
+                output = await call_vlm_model(query, image, model, processor, sampling_params)
                 code = extract_code(output)
                 req_token = args.num_visual_tokens
 
