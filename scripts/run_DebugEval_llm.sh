@@ -1,0 +1,18 @@
+python DebugEval/src/inference/main.py \
+    --model "Qwen/Qwen3-Coder-30B-A3B-Instruct" \
+    --data_path "DebugEval/Data/debugevalsuite_task3.jsonl" \
+    --prompt_dir "DebugEval/src/prompts" \
+    --output_dir "./DebugEval_Result" \
+    --task "code_repair" \
+    --prompt_type "zero_shot" \
+    --platform "all" \
+    --n 1 \
+    --mode "text_only" \
+    --temperature 0.7 \
+    --top_p 0.8 \
+    --max_tokens 6144 \
+    --max_model_len 30000 \
+    --presence_penalty 1.5 \
+    --num_quiz 0 \
+    --GPU_util 0.90 \
+    --model_path "./weights/qwen3-coder-30b"

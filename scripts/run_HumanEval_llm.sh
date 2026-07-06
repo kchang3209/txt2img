@@ -1,0 +1,11 @@
+python HumanEval/HumanEval.py \
+    --model_name "Qwen/Qwen3-Coder-30B-A3B-Instruct" \
+    --mode "text_only" \
+    --DATASET_PATH "HumanEval/text_only/humaneval_text.json" \
+    --RESULTS_DIR "./HumanEval_Results" \
+    --temperature 0.0 \
+    --top_p 0.1 \
+    --model_path "./weights/qwen3-coder-30b" \
+    --max_model_len 4096 \
+    --max_tokens 1024 \
+    --GPU_util 0.9

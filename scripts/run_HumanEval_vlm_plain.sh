@@ -1,0 +1,13 @@
+python HumanEval/HumanEval.py \
+    --model_name "Qwen/Qwen3-VL-30B-A3B-Instruct" \
+    --mode "vlm" \
+    --DATASET_PATH "HumanEval/vlm/humaneval_vlm.json" \
+    --RESULTS_DIR "./HumanEval_Results" \
+    --IMAGE_PATH "HumanEval/vlm/images_plain" \
+    --temperature 0.0 \
+    --top_p 0.1 \
+    --GPU_util 0.9 \
+    --max_model_len 4096 \
+    --max_tokens 1024 \
+    --num_visual_tokens 188 \
+    --model_path "./weights/qwen3-VL-30b"

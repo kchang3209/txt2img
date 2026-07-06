@@ -1,0 +1,5 @@
+backoff
+huggingface_hub
+qwen_vl_utils
+vllm
+protobuf==5.29.6

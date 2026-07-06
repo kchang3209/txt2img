@@ -1,0 +1,20 @@
+python DebugEval/src/inference/main.py \
+    --model "Qwen/Qwen3-VL-30B-A3B-Instruct" \
+    --data_path "DebugEval/Data/debugevalsuite_task3.jsonl" \
+    --prompt_dir ".DebugEval/src/prompts" \
+    --output_dir "./DebugEval_Result_VLM" \
+    --task "code_repair" \
+    --prompt_type "zero_shot" \
+    --platform "all" \
+    --n 1 \
+    --mode "vlm" \
+    --temperature 0.7 \
+    --top_p 0.8 \
+    --max_tokens 40000 \
+    --max_model_len 50000 \
+    --presence_penalty 1.5 \
+    --num_quiz 0 \
+    --GPU_util 0.90 \
+    --model_path "./weights/qwen3-VL-30b" \
+    --DATASET_PATH "DebugEval/Data/CSE247/bug_repair/vlm/DebugEval_vlm.json" \
+    --IMAGE_DIR "DebugEval/Data/CSE247/bug_repair/vlm/images"
