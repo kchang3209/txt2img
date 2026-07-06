@@ -44,7 +44,7 @@ Evaluation metrics include:
 -   Debugging accuracy
 -   Token budget comparison & compression ratio
 
-------------------------------------------------------------------------
+
 
 ## Experimental Pipeline
 
@@ -74,7 +74,7 @@ Coding Tasks & Debug
 git clone https://github.com/kchang3209/txt2img.git
 git clone https://github.com/kchang3209/DebugEval.git
 cd txt2img
-pip install -r requirements.txt
+bash scripts/install.sh
 ```
 
 ## Model Download
@@ -120,7 +120,7 @@ bash scripts/run_DebugEval_vlm.sh
 
 <img width="100%" alt="accuracy" src="./plots/accuracy.png" />
 
-------------------------------------------------------------------------
+
 
 ## Acknowledgements
 
