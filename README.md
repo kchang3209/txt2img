@@ -113,7 +113,20 @@ bash scripts/run_DebugEval_llm.sh
 bash scripts/run_DebugEval_vlm.sh
 ```
 
+**Code2Img Tool**
+``` bash
+# Install required dependencies
+# Note: this bash runs package updates. Use with caution!
+bash scripts/code2img_install.sh
 
+# Convert code scripts to images
+# Note: edit `vlm_item` to control which columns in the csv to be included in the JSON file.
+python tools/code2img.py \
+    --csv_path <path to code script csv file> \
+    --output_root code2img \
+    --img_width 1280
+
+```
 
 
 ## Analysis
@@ -127,7 +140,7 @@ bash scripts/run_DebugEval_vlm.sh
 This is an individual project developed under the instructions of Professor José Renau and Professor Yuyin Zhou.
 
 Many thanks to several outstanding open-source resources:
-- [**HumanEval**](https://github.com/openai/human-eval): Benchmark dataset for evaluating code generation and debugging tasks.
-- [**COAST_DebugEval**](https://github.com/NEUIR/COAST): Evaluation framework adapted and extended for multimodal code understanding experiments.
+- [**HumanEval**](https://github.com/openai/human-eval): Benchmark dataset for evaluating code generation tasks.
+- [**COAST_DebugEval**](https://github.com/NEUIR/COAST): Evaluation framework for multimodal debug tasks.
 - [**Qwen**](https://huggingface.co/collections/Qwen/qwen3-vl): Large Language Models and Vision-Language Models used throughout the experiments.
-
+- [**highlight.js**](https://highlightjs.org/): Syntax highlighter for experimenting the impact of visual effect on VLM's code interpretation capability.
