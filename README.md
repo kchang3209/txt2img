@@ -129,11 +129,24 @@ python tools/code2img.py \
 ```
 
 
-## Analysis
+## Major Findings
 
-<img width="100%" alt="accuracy" src="./plots/accuracy.png" />
+**VLM can solve the majority of the HumanEval questions more inexpensively than LLM, many of which are questions that come with lengthy instructions.**
+<img width="100%" alt="HumanEval: Who solved it more efficiently?" src="./plots/token_budget.png" />
 
+<br>
 
+**But in order to achieve similar overall accuracy, VLM needs to invest much more number of tokens than LLM.**
+<img width="100%" alt="HumanEval: Overall accuracy." src="./plots/accuracy.png" />
+
+<br>
+
+**The debugging capabilities of VLM is yet limited, as the accuracy in every category of error falls behind that of LLM.**
+
+| DebugEval (Bug Repair) | Syntax Error | Reference Error | Logic Error | Multiple Error | Average Accuracy | Average Token Budget |
+|------|-------------:|----------------:|------------:|---------------:|-----------------:|---------------------:|
+| **LLM (30B)** | 80% | 60% | 79% | 55% | **70%** | **797** |
+| **VLM (30B)** | 70% | 53% | 58% | 40% | **53%** | **3028** |
 
 ## Acknowledgements
 
