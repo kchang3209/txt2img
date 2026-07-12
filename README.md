@@ -132,11 +132,13 @@ python tools/code2img.py \
 ## Major Findings
 
 **VLM can solve the majority of the HumanEval questions more inexpensively than LLM, many of which are questions that come with lengthy instructions.**
+
 <img width="50%" alt="HumanEval: Who solved it more efficiently?" src="./plots/token_budget.png" />
 
 <br>
 
 **But in order to achieve similar overall accuracy, VLM needs to invest much more number of tokens than LLM.**
+
 <img width="50%" alt="HumanEval: Overall accuracy." src="./plots/accuracy.png" />
 
 <br>
